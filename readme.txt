@@ -1,34 +1,34 @@
-# oik themes server 
-* Contributors: bobbingwide
-* Donate link: http://www.oik-plugins.com/oik/oik-donate/
-* Tags:  themes, server, shortcodes, FREE, premium
-* Requires at least: 3.9
-* Tested up to: 3.9.1
-* Stable tag: 0.6
-* License: GPLv2 or later
-* License URI: http://www.gnu.org/licenses/gpl-2.0.html
+=== oik themes server ===
+Contributors: bobbingwide
+Donate link: http://www.oik-plugins.com/oik/oik-donate/
+Tags:  themes, server, shortcodes, FREE, premium
+Requires at least: 3.9
+Tested up to: 3.9.1
+Stable tag: 0.6
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-## Description 
+== Description ==
 oik-themes server for FREE, Themium and Bespoke oik-themes
 
 
-## Installation 
+== Installation ==
 1. Upload the contents of the oik-themes plugin to the `/wp-content/plugins/oik-themes' directory
 1. Activate the oik-themes plugin through the 'Plugins' menu in WordPress
 1. Visit Settings > Permalinks to properly register the new custom post types ( oik-themes, oik_themeversion and oik_themiumversion )
 1. To support oik Premium themes use oik options > Server settings to define a secure folder used to store uploaded zip files
 1. Also install and activate either oik-edd or oik-woo to allow the creation of API keys
 
-## Frequently Asked Questions 
+== Frequently Asked Questions ==
 
-# Can I deliver bespoke themes? 
+= Can I deliver bespoke themes? =
 Can I deliver unique themes to my customer without having the themes listed on the website?
 
-* Answer: Yes. You can have them listed as premium themes (themium) but don't associate them with a product.
+Answer: Yes. You can have them listed as premium themes (themium) but don't associate them with a product.
 No users will be able to purchase the product so only those with an API key and who already have the theme installed will be able to download the updates.
 OR use Bespoke themes.
 
-# How do I do this? 
+= How do I do this? =
 One way of doing this:
 
 1. create the product
@@ -41,64 +41,65 @@ One way of doing this:
 
 only those users with API keys will be able to upgrade.
 
-# Is there another way? 
+= Is there another way? =
 Yes, classify the theme as "Bespoke"
 This won't create a download button but the theme will be accessible if the user knows the theme name.
 
-## Screenshots 
+== Screenshots ==
 1. oik themes server settings
 2. edit oik-theme
 3. display oik-theme
 
-## Upgrade Notice 
-# 0.6 
+== Upgrade Notice ==
+= 0.6 =
 Changed plugin dependency versions. Now supported on WordPress 3.9 or higher
-# 0.5 
+
+= 0.5 = 
 Required for oik-plugins.com. Now depends on oik v2.1
 
-# 0.4 
+= 0.4 = 
 Requires oik-plugins v1.4, oik v2.1-alpha.0927 and oik-fields v1.19 or higher
 
-# 0.3 
+= 0.3 = 
 After installing you need to set the "required_version" and "compatible_up_to" categories for each theme.
 Depends on oik-plugins v1.2 or higher
 
-# 0.2 
-Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2
+= 0.2 = 
+Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2 
 
-## Changelog 
-# 0.6 
+== Changelog ==
+= 0.6 = 
 * Changed: Plugin dependency versions.
 * Changed: oikth_update_check() returns the theme's slug in $response->theme
-* Changed: Use dashicons for oik-themes, oik_themeversion and oik_themiumversion
+* Changed: Use dashicons for oik-themes, oik_themeversion and oik_themiumversion 
 
-# 0.5 
+= 0.5 =
 * Changed: Renamed some functions causing "Cannot redeclare" fatal errors
 
-# 0.4 
+= 0.4 =
 * Added: Field _oikth_demo - for a link to a live demonstration of the theme
 * Added: Field _oikth_template - noderef to "oik-themes" used for child themes
-* Changed: Supports ( manual ) theming of download buttons; Use alink() rather than art_button() for download buttons.
+* Changed: Supports ( manual ) theming of download buttons; Use alink() rather than art_button() for download buttons. 
 * Changed: Re-labelled "Other" as "Bespoke"
 
-# 0.3 
+= 0.3 =
 * Changed: Removed _oikth_requires and _oikth_tested fields - having previously switched to using Custom categories
 * Changed: Added plugin dependency on oik-plugins:1.2
 * Added: Started adding support for better display of theme details in an iframe - when Theme updates are being viewed. oikth_inspect_request_uri()
 * Changed: oik-themes Custom Post type now supports Excerpt and Featured image
 * Changed: Displays Description rather than Name in admin pages and [bw_table] shortcode
 * Changed: Download buttons determined from the theme classification: CPT - oik_themeversion/oik_themiumversion - then Theme type (_oikth_type )
+ 
+= 0.2 = 
+* Changed: Now uses custom categories for "Requires" and "Compatible up to" 
+* Note: Requires oik-plugins for definition of custom categories AND other functions to set server fields. 
 
-# 0.2 
-* Changed: Now uses custom categories for "Requires" and "Compatible up to"
-* Note: Requires oik-plugins for definition of custom categories AND other functions to set server fields.
-
-# 0.1 
+= 0.1 =
 * Added: First version for delivering oik-plugins's themes: oik2012, nivo2011 and oik20120
 
 
-## Further reading 
+== Further reading ==
 If you want to read more about the oik plugins then please visit the
-[oik plugin](http://www.oik-plugins.com/oik)
+[oik plugin](http://www.oik-plugins.com/oik) 
 **"the oik plugin - for often included key-information"**
 
