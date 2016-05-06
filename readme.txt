@@ -3,8 +3,8 @@ Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags:  themes, server, shortcodes, FREE, premium
 Requires at least: 3.5
-Tested up to: 3.6
-Stable tag: 0.2
+Tested up to: 3.6.1
+Stable tag: 0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,18 +19,52 @@ oik-themes server for FREE and Themium oik-themes
 1. Also install and activate either oik-edd or oik-woo to allow the creation of API keys
 
 == Frequently Asked Questions ==
-Can I deliver unique themes to my customer without having the themes listed on the website?
-Answer: Hmm?
 
+= Can I deliver bespoke themes? =
+Can I deliver unique themes to my customer without having the themes listed on the website?
+
+Answer: Yes. You can have them listed as premium themes (themium) but don't associate them with a product.
+No users will be able to purchase the product so only those with an API key and who already have the theme installed will be able to download the updates.
+
+= How do I do this? =
+One way of doing this:
+
+1. create the product
+2. create the theme attaching the product to the theme
+3. buy the product
+4. get an API key
+5. unpublish the product
+6. create the themium version
+7. continue to create themium versions
+
+only those users with API keys will be able to upgrade.
+
+= Is there another way? =
+Yes, classify the theme as "Other"
+This won't create a download button but the theme will be accessible if the user knows the theme name.
 
 == Screenshots ==
-1. xyz in action
+1. oik themes server settings
+2. edit oik-theme
+3. display oik-theme
 
 == Upgrade Notice ==
+= 0.3 = 
+After installing you need to set the "required_version" and "compatible_up_to" categories for each theme.
+Depends on oik-plugins v1.2 or higher
+
 = 0.2 = 
 Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2 
 
 == Changelog ==
+= 0.3 =
+* Changed: Removed _oikth_requires and _oikth_tested fields - having previously switched to using Custom categories
+* Changed: Added plugin dependency on oik-plugins:1.2
+* Added: Started adding support for better display of theme details in an iframe - when Theme updates are being viewed. oikth_inspect_request_uri()
+* Changed: oik-themes Custom Post type now supports Excerpt and Featured image
+* Changed: Displays Description rather than Name in admin pages and [bw_table] shortcode
+* Changed: Download buttons determined from the theme classification: CPT - oik_themeversion/oik_themiumversion - then Theme type (_oikth_type )
+ 
 = 0.2 = 
 * Changed: Now uses custom categories for "Requires" and "Compatible up to" 
 * Note: Requires oik-plugins for definition of custom categories AND other functions to set server fields. 

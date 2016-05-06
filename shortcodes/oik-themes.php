@@ -20,8 +20,16 @@ function _oikth_download_freeversion( $version, $post, $class ) {
   $new_version = oikth_get_latestversion( $version );
   $link = oikth_get_package( $post, $version, $new_version, null, "download" );
   if ( $link ) {
-    $text = "Download version $new_version" ;
-    $title = "Download " . $post->post_name . " version " . $new_version;
+    $text = __( "Download" ); 
+    $text .= "&nbsp;";
+    $text .= $post->post_name; 
+    $text .= "&nbsp;";
+    $text .= retstag( "span", "version" );
+    $text .= __("version" );
+    $text .= "&nbsp;";
+    $text .= $new_version ;
+    $text .= retetag( "span" );
+    $title = $text; 
     //alink( $class, $link, $text, $title );
     //or 
     art_button( $link, $text, $title, $class );
@@ -48,11 +56,27 @@ function _oikth_download_version( $version, $post, $class, $slug ) {
     _oikth_purchase_premiumversion( $version, $post, $class );    
   } else {
     $theme_type = get_post_meta( $post->ID, "_oikth_type", true );
-    if ( $theme_type == 1 ) {
-      _oikth_download_wordpressversion( $post, $slug );
-    } else {
-      _oikth_download_freeversion( $version, $post, $class ); 
-    }
+    switch ( $theme_type ) {
+      case 0:
+        // No theme type specified - do not create a download link
+        break;
+      case 1:
+        _oikth_download_wordpressversion( $post, $slug );
+        break;
+        
+      case 2:
+        _oikth_download_freeversion( $version, $post, $class );      
+        break;
+        
+      case 6: 
+        _oikth_download_wordpressversion( $post, $slug );
+        br();
+        _oikth_download_freeversion( $version, $post, $class );  
+        break;    
+        
+      default:
+        // Do nothing for premium or other versions
+    }    
   }
 }
 

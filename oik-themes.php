@@ -4,7 +4,7 @@ Plugin Name: oik themes server
 Depends: oik base plugin, oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-themes
 Description: oik themes server for themium and free(mium) oik themes
-Version: 0.2
+Version: 0.3
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
@@ -43,6 +43,24 @@ function oikth_theme_rewrite() {
   add_filter( "wp_handle_upload", "oikth_handle_upload", 10, 2 );
 }
 
+function oikth_inspect_request_uri() {
+  $request_uri = $_SERVER['REQUEST_URI'];
+  bw_trace2(  $request_uri, "request_uri" );
+  if ( substr( $request_uri, -1 ) == "?" ) {
+     bw_trace2( "Shall we iframe it?" );
+     $template = locate_template( 'oik-themes-iframe.php' );
+     if ( '' != $template  ) {
+       echo "$template";
+       require $template;
+       exit();
+     } else {
+       echo "No template for iframe" ;
+     }    
+  } else {
+     bw_trace2( "Looks like a normal request" );  
+  }
+}
+
 /**
  * Handle the themes/%oik-theme% request
  */
@@ -53,6 +71,7 @@ function oikth_template_redirect() {
     oik_require( "feed/oik-themes-feed.php", "oik-themes" );
     oikth_lazy_redirect( $oik_theme ); 
   } 
+  // oikth_inspect_request_uri();
 }
 
 add_action( 'oik_fields_loaded', 'oikth_init' );
@@ -114,26 +133,29 @@ function bw_theme_post_types() {
 
 /**
  * Register the oik-themes custom post type
+ *
+ * The description is the content field
+ * The title should contain the theme slug and the theme description
+ * The featured image is for the theme banner
+ * You can also manually create excerpts
+ * 
  */
 function oik_register_oik_theme() {
   $post_type = 'oik-themes';
   $post_type_args = array();
-  $post_type_args['label'] = 'oik themes';
-  $post_type_args['description'] = 'oik theme';
+  $post_type_args['label'] = __( 'oik themes', "oik" );
+  $post_type_args['description'] = __( 'oik theme', "oik" );
+  $post_type_args['supports'] = array( 'title', 'editor', 'thumbnail', 'excerpt' );
   bw_register_post_type( $post_type, $post_type_args );
-  
-  // The description is the content field
-  // The title should contain the theme slug and the theme description
 
 
   bw_register_field( "_oikth_type", "select", "Theme type", array( '#options' => bw_theme_types() ) ); 
   bw_register_field( "_oikth_slug", "text", "Theme slug = theme folder name (e.g. oik)" ); 
-  //bw_register_field( "_oikth_name", "text", "theme name (e.g. oik/oik.php)" ); 
   bw_register_field( "_oikth_desc", "text", "oik theme description" ); 
 
   /** Currently we support two different systems for delivering themium themes: WooCommerce and Easy Digital Downloads 
    * The Purchasable product should be completed for each themium oik theme (and Other themium theme? )
-  */
+   */
   $purchasable_product_type = array();
   $purchasable_product_type[] = "download"; 
   $purchasable_product_type[] = "product"; 
@@ -181,7 +203,7 @@ function oikth_columns_and_titles( $post_type ) {
 function oik_themes_columns( $columns, $arg2=null ) {
   $columns['_oikth_type'] = __("Type"); 
   $columns['_oikth_slug'] = __("Slug" );
-  $columns['_oikth_name'] = __("Name" );
+  $columns['_oikth_desc'] = __("Description" );
   $columns['_oikth_prod'] = __("Product" );
   //bw_trace2();
   return( $columns ); 
@@ -193,7 +215,7 @@ function oik_themes_columns( $columns, $arg2=null ) {
 function oik_themes_fields( $fields, $arg2 ) {
   $fields['_oikth_type'] = '_oikth_type';
   $fields['_oikth_slug'] = '_oikth_slug';
-  $fields['_oikth_name'] = '_oikth_name' ;
+  $fields['_oikth_desc'] = '_oikth_desc' ;
   // $fields['_oikth_prod'] = '_oikth_prod' ;
   return( $fields );
 }
@@ -229,26 +251,24 @@ function oikth_header_meta_box() {
 function oik_register_oik_themeversion() {
   $post_type = 'oik_themeversion';
   $post_type_args = array();
-  $post_type_args['label'] = 'oik theme versions';
-  
-  $post_type_args['description'] = 'oik theme version';
+  $post_type_args['label'] = __( 'oik theme versions', 'oik-themes' );
+  $post_type_args['description'] = __( 'oik theme version', 'oik-themes' );
   $post_type_args['taxonomies'] = array( 'required_version', 'compatible_up_to' );
   bw_register_post_type( $post_type, $post_type_args );
-  
   oik_register_oik_themeversion_fields( $post_type );
-  
 }
 
 /**
- * Register the fields for the oik_themeversion and oik_themiumversion CPTs 
+ * Register the fields for the oik_themeversion and oik_themiumversion CPTs
+ *  
+ * The title should contain the name and version e.g. oik2012 v0.1
  */
 function oik_register_oik_themeversion_fields( $post_type ) {
   
-  // The description is the content field
-  // The title should contain the name 
   bw_register_field( "_oiktv_theme", "noderef", "theme", array( '#type' => 'oik-themes') );   
   bw_register_field( "_oiktv_version", "text", "Version", array( '#hint' => " (omit the v)" ) ); 
   
+  /*
   $wp_versions = array( 0 => "3.0.4"
                       , 1 => "3.4.1"
                       , 2 => "3.4.2"
@@ -256,17 +276,17 @@ function oik_register_oik_themeversion_fields( $post_type ) {
                       , 4 => "3.5.1"
                       , 5 => "3.6-alpha-23386" // 8 Feb 2013"
                       );
-
-  bw_register_field( "_oiktv_requires", "select", "Requires", array( '#options' => $wp_versions, '#theme' => false ) ); 
-  bw_register_field( "_oiktv_tested", "select", "Tested", array( '#options' => $wp_versions, '#theme' => false ) ); 
+  */
+  //bw_register_field( "_oiktv_requires", "select", "Requires", array( '#options' => $wp_versions, '#theme' => false ) ); 
+  //bw_register_field( "_oiktv_tested", "select", "Tested", array( '#options' => $wp_versions, '#theme' => false ) ); 
   // bw_register_field( "_oiktv_upgrade", "textarea", "Upgrade notice" ); 
   bw_register_field( "_oiktv_download_count", "numeric", "Download count", array( '#theme' => false ) );
   bw_register_field( "_oiktv_update_count", "numeric", "Update count", array( '#theme' => false ) );
   
   bw_register_field_for_object_type( "_oiktv_version", $post_type );
   bw_register_field_for_object_type( "_oiktv_theme", $post_type );
-  bw_register_field_for_object_type( "_oiktv_requires", $post_type );
-  bw_register_field_for_object_type( "_oiktv_tested", $post_type );
+  //bw_register_field_for_object_type( "_oiktv_requires", $post_type );
+  //bw_register_field_for_object_type( "_oiktv_tested", $post_type );
   // bw_register_field_for_object_type( "_oiktv_upgrade", $post_type );
   bw_register_field_for_object_type( "_oiktv_download_count", $post_type );
   bw_register_field_for_object_type( "_oiktv_update_count", $post_type );
@@ -275,9 +295,12 @@ function oik_register_oik_themeversion_fields( $post_type ) {
   
 }
 
-function oik_themeversion_columns( $columns, $args ) {
+/**
+ * Return the columns to be displayed
+ */
+function oik_themeversion_columns( $columns, $args=null ) {
   $columns['_oiktv_version'] = __("Version"); 
-  $columns['_oiktv_theme'] = __("theme" );
+  $columns['_oiktv_theme'] = __("Theme" );
   $columns['_oiktv_download_count'] = __("Downloads" );
   $columns['_oiktv_update_count'] = __("Updates" );
   return( $columns ); 
@@ -312,17 +335,15 @@ function oik_themeversion_titles( $titles, $arg2, $fields=null ) {
 function oik_register_oik_themiumversion() {
   $post_type = 'oik_themiumversion';
   $post_type_args = array();
-  $post_type_args['label'] = 'oik themium versions';
-  
-  $post_type_args['description'] = 'oik themium theme version';
+  $post_type_args['label'] = __( 'oik themium versions', 'oik-themes' );
+  $post_type_args['description'] = __( 'oik themium theme version', 'oik-themes' );
   $post_type_args['taxonomies'] = array( 'required_version', 'compatible_up_to' );
   bw_register_post_type( $post_type, $post_type_args );
-  
   oik_register_oik_themeversion_fields( $post_type ); 
 }
 
 
-function oik_themiumversion_columns( $columns, $args ) {
+function oik_themiumversion_columns( $columns, $args=null ) {
   return( oik_themeversion_columns( $columns, $args) );
 }
 
@@ -354,7 +375,6 @@ function oikth_theme_feed() {
   oik_require( "feed/oik-themes-feed.php", "oik-themes" );
   oik_lazy_oikth_theme_feed();
 }
-
 
 /* 
  * Return true if the current post is of the selected $post_type
@@ -391,19 +411,19 @@ function oikth_build_external_dir( $dir ) {
 /**
  * Can we alter the filter in wp_handle_upload to control where the file gets stored and the 
  * download URL for it?
- 
+ *
  * custom backgrounds and custom headers are created using 
  * wp_file_upload then wp_insert_attachment
  *  
-
-
-by renaming the .zip file then it's no longer accessible from the uploads directory
-BUT we still have links to it and to all intents and purposes it still exists.
-So now we can intercept calls to 
-download?theme=fred&version=1.18 and access the file from the renamed directory.
-
-
-*/
+ *
+ *
+ *  by renaming the .zip file then it's no longer accessible from the uploads directory
+ *  BUT we still have links to it and to all intents and purposes it still exists.
+ *  So now we can intercept calls to 
+ *  download?theme=fred&version=1.18 and access the file from the renamed directory.
+ *
+ *
+ */
 function oikth_create_new_file_name( $old_file ) {
   //global $pagenow;
   $file = basename( $old_file, ".zip" );
@@ -570,6 +590,6 @@ function oikth_activation() {
     add_action( "after_plugin_row_" . $plugin_basename, __FUNCTION__ );   
     require_once( "admin/oik-activation.php" );
   }  
-  $depends = "oik-fields:1.18,oik:v2.0-beta";
+  $depends = "oik-fields:1.18,oik:v2.1-alpha,oik-plugins:1.2";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
 }

@@ -29,7 +29,6 @@ function _oikth_lazy_redirect( $oik_theme_action ) {
 /**
  * Support /themes/download/?theme=theme&version=version&apikey=apikey&action=update/download&id=id 
  */
-
 function _oikth_lazy_redirect_download( $oik_theme_action ) {
   $theme =  bw_array_get( $_REQUEST, "theme", null );
   $version = bw_array_get( $_REQUEST, "version", null );
@@ -131,7 +130,6 @@ function oikth_download_file( $theme, $version, $apikey, $id ) {
   }
   echo serialize( $response );
 } 
-     
 
 /**
  * Force the download of a file
@@ -156,6 +154,10 @@ function _oikth_lazy_redirect_info( $oik_theme_action ) {
   oikth_theme_information( $oik_theme_action );
 }
 
+/**
+ * Implement lazy redirect for the selected action
+ * @param string $oik_theme_action should be one of "info", "update_check" 
+ */ 
 function oikth_lazy_redirect( $oik_theme_action ) {
   $funcname = bw_funcname( "_oikth_lazy_redirect", $oik_theme_action );
   $funcname( $oik_theme_action );
@@ -209,6 +211,7 @@ function oikth_load_themeversion( $post ) {
   } else {
     //gobang();
     // None - so we don't have a theme type - this is how the WordPress core is catalogued
+    $version = null;
   }  
   return( $version );
 
@@ -261,10 +264,15 @@ function bw_return_field( $field_name=null, $data=null ) {
   return( $value );
 }     
 
-
+/**
+ * Get the value of the "required_version" custom category ( was _oikpv_requires ) 
+ * 
+ * Note: There should only be ONE value but WordPress does cater for a list
+ */
 function oikth_get_requires( $version ) { 
   if ( $version ) { 
-    $requires = get_post_meta( $version->ID, "_oiktv_requires", true );
+    // $requires = get_post_meta( $version->ID, "_oiktv_requires", true );
+    $requires = get_the_term_list( $version->ID, "required_version", "", ",", "" );
     $requires = bw_return_field( "_oiktv_requires", $requires );
     
   } else {
@@ -276,7 +284,8 @@ function oikth_get_requires( $version ) {
 
 function oikth_get_tested( $version ) { 
   if ( $version ) {
-    $tested = get_post_meta( $version->ID, "_oiktv_tested", true );
+    //$tested = get_post_meta( $version->ID, "_oiktv_tested", true );
+    $tested = get_the_term_list( $version->ID, "compatible_up_to", "", ",", "" );
     $tested = bw_return_field( "_oiktv_tested", $tested );
   }  
   else
@@ -322,7 +331,7 @@ function oikth_get_attachment( $version ) {
 function oikth_get_package( $post, $version, $new_version, $apikey=null, $action="update") {
 
   $file = oikth_get_attachment( $version );
-  if  ( $file ) {
+  if ( $file ) {
     $package = home_url( "/themes/download" );
     $package = add_query_arg( array( "theme" => $post->post_name
                                    , "version" => $new_version
