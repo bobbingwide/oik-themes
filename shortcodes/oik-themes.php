@@ -41,9 +41,14 @@ function _oikth_download_freeversion( $version, $post, $class ) {
 
 /**
  * Create a link to download the WordPress theme
+ * Note: For the download to actually work this now requires the theme version, which we may not have.
+ * So currently we'll have to just create a link to the theme's home page.
+ * Using type: None in the mean time. 
  */
 function _oikth_download_wordpressversion( $post, $slug ) {
   $link = "http://downloads.wordpress.org/theme/$slug.zip";
+  $link = "http://wordpress.org/themes/download/$slug.zip";
+  $link = "http://wordpress.org/themes/$slug";
   $text = __( "Download" );
   $text .= "&nbsp;";
   $text .= $slug;
@@ -128,7 +133,7 @@ function oikth_download( $atts=null ) {
 
 
 function oikth_download__help( $shortcode='oikth_download' ) {
-  return( "Produce a download button for a theme" );
+  return( __( "Produce a download button for a theme", "oik-themes" ) );
 }
 
 function oikth_download__syntax( $shortcode='oikth_download' ) {

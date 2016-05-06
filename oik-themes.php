@@ -4,12 +4,12 @@ Plugin Name: oik themes server
 Depends: oik base plugin, oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-themes
 Description: oik themes server for themium and free(mium) oik themes
-Version: 0.4
+Version: 0.5
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
 
-    Copyright 2013 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2013,2014 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -27,8 +27,6 @@ License: GPL2
 
 */
 
-add_action( "init", "oikth_theme_rewrite" );
-
 /** 
  * Implement "init" action for oik themes server
  * 
@@ -43,6 +41,9 @@ function oikth_theme_rewrite() {
   add_filter( "wp_handle_upload", "oikth_handle_upload", 10, 2 );
 }
 
+/**
+ * @TODO TBC
+ */   
 function oikth_inspect_request_uri() {
   $request_uri = $_SERVER['REQUEST_URI'];
   bw_trace2(  $request_uri, "request_uri" );
@@ -73,8 +74,6 @@ function oikth_template_redirect() {
   } 
   // oikth_inspect_request_uri();
 }
-
-add_action( 'oik_fields_loaded', 'oikth_init' );
 
 /**
  * Implement the "oik_fields_loaded" action for oik themes server
@@ -584,16 +583,28 @@ function oikth_admin_menu() {
   oikth_lazy_admin_menu();
 }
 
-add_action( "admin_notices", "oikth_activation" );
 /**
-*/ 
+ * Dependency checking for oik-themes
+ */ 
 function oikth_activation() {
   static $plugin_basename = null;
   if ( !$plugin_basename ) {
     $plugin_basename = plugin_basename(__FILE__);
-    add_action( "after_plugin_row_" . $plugin_basename, __FUNCTION__ );   
+    add_action( "after_plugin_row_oik-themes/oik-themes.php", "oikth_activation" );   
     require_once( "admin/oik-activation.php" );
   }  
   $depends = "oik-fields:1.18,oik:v2.1-alpha,oik-plugins:1.2";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
 }
+
+/**
+ * Function to invoke when plugin file loaded 
+ */                                
+function oikth_plugin_loaded() {
+  add_action( "init", "oikth_theme_rewrite" );
+  add_action( 'oik_fields_loaded', 'oikth_init' );
+  add_action( "admin_notices", "oikth_activation" );
+}
+
+
+oikth_plugin_loaded();

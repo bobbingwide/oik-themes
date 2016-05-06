@@ -4,7 +4,7 @@ Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
 
-    Copyright 2012, 2013 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2014 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -248,6 +248,7 @@ function oikth_get_theme( $version ) {
 /**
  * Return the value of the field depending on the field type
  */
+ if ( !function_exists( "bw_return_field" ) ) {
 function bw_return_field( $field_name=null, $data=null ) {
   global $bw_fields;
   $value = $data; 
@@ -262,6 +263,7 @@ function bw_return_field( $field_name=null, $data=null ) {
     }  
   }  
   return( $value );
+}
 }     
 
 /**
@@ -401,6 +403,7 @@ function oikth_update_check( $oik_theme_action="update-check" ) {
  * Get userdata for the selected user ID 
  *
  */
+if ( !function_exists( "bw_get_userdata" ) ) { 
 function bw_get_userdata( $id, $field, $default ) {
   $userdata = get_userdata( $id );
   bw_trace2( $userdata, "userdata" );
@@ -409,6 +412,7 @@ function bw_get_userdata( $id, $field, $default ) {
   bw_trace2( $value );
   return( $value );
 }  
+}
 
 /**
  * Return a link to the author's home page
@@ -418,7 +422,7 @@ function bw_get_userdata( $id, $field, $default ) {
  * Note: The value in the oik-themes admin profile is not used in this version.
  * 
  */
-function bw_get_author_name( $post ) {
+function oikth_get_author_name( $post ) {
   // bw_trace2( $post );
   $author = $post->post_author;
   oik_require( "admin/oik-themes.php", "oik-themes" );
@@ -429,7 +433,7 @@ function bw_get_author_name( $post ) {
   return( $link );
 }
 
-function bw_get_author_profile( $post ) {
+function oikth_get_author_profile( $post ) {
   return( "http://profiles.wordpress.org/bobbingwide" );
 } 
 
@@ -537,8 +541,8 @@ function oikth_theme_information( $oik_theme_action="info" ) {
           $response->name = $slug;
           $response->last_updated = $version->post_modified;
           $response->version = oikth_get_latestversion( $version );
-          $response->author = bw_get_author_name( $post );
-          $response->author_profile = bw_get_author_profile( $post );
+          $response->author = oikth_get_author_name( $post );
+          $response->author_profile = oikth_get_author_profile( $post );
           $response->requires = oikth_get_requires( $version );
           $response->tested = oikth_get_tested( $version );
           $response->homepage = get_permalink( $post->ID );
