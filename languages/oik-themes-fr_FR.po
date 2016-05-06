@@ -1,0 +1,159 @@
+# Copyright (C) 2015 oik themes server
+# This file is distributed under the same license as the oik themes server package.
+msgid ""
+msgstr ""
+"Project-Id-Version: oik themes server 1.0.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-themes\n"
+"POT-Creation-Date: 2015-07-23 09:46:22+00:00\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+"Language: fr_FR\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+#: admin/oik-themes.php:35
+msgid "themes server settings"
+msgstr "thèmes paramètres du serveur"
+
+#: admin/oik-themes.php:36
+msgid "Defaults"
+msgstr "Par défaut"
+
+#: admin/oik-themes.php:37
+msgid "Status"
+msgstr "Statut"
+
+#: admin/oik-themes.php:48
+msgid "Folder for premium themes"
+msgstr "Dossier pour les thèmes premium"
+
+#: admin/oik-themes.php:146 oik-themes.php:280 shortcodes/oik-themes.php:172
+msgid "theme"
+msgstr "thème"
+
+#: admin/oik-themes.php:148 oik-themes.php:316
+msgid "Downloads"
+msgstr "Téléchargements"
+
+#: admin/oik-themes.php:149 oik-themes.php:317
+msgid "Updates"
+msgstr "Mises à jour"
+
+#: admin/oik-themes.php:150
+msgid "Totals"
+msgstr "Totaux"
+
+#: oik-themes.php:148
+msgid "oik themes"
+msgstr "thèmes OIK"
+
+#: oik-themes.php:149
+msgid "oik theme"
+msgstr "thème oik"
+
+#: oik-themes.php:156
+msgid "Theme type"
+msgstr "Type de Thème"
+
+#: oik-themes.php:157
+msgid "Theme name"
+msgstr "Thème"
+
+#: oik-themes.php:158 oik-themes.php:214
+msgid "Description"
+msgstr ""
+
+#: oik-themes.php:159
+msgid "Live demonstration"
+msgstr "Une démonstration en direct"
+
+#: oik-themes.php:160
+msgid "Template"
+msgstr "Modèle"
+
+#: oik-themes.php:168
+msgid "Purchasable product"
+msgstr "Produits achetables"
+
+#: oik-themes.php:212
+msgid "Type"
+msgstr ""
+
+#: oik-themes.php:213
+msgid "Slug"
+msgstr "Limace"
+
+#: oik-themes.php:215
+msgid "Product"
+msgstr "Produit"
+
+#: oik-themes.php:264
+msgid "oik theme versions"
+msgstr "versions à thème OIK"
+
+#: oik-themes.php:265
+msgid "oik theme version"
+msgstr "Version thème oik"
+
+#: oik-themes.php:281 oik-themes.php:314 oik-themes.php:338
+msgid "Version"
+msgstr ""
+
+#: oik-themes.php:295
+msgid "Download count"
+msgstr "Compte des téléchargements"
+
+#: oik-themes.php:296
+msgid "Update count"
+msgstr "le nombre de mise à jour"
+
+#: oik-themes.php:315
+msgid "Theme"
+msgstr "Thème"
+
+#: oik-themes.php:353
+msgid "oik themium versions"
+msgstr "OIK versions de themium"
+
+#: oik-themes.php:354
+msgid "oik themium theme version"
+msgstr "Version thème themium oik"
+
+#: shortcodes/oik-themes.php:27 shortcodes/oik-themes.php:55
+msgid "Download"
+msgstr "Télécharger"
+
+#: shortcodes/oik-themes.php:32
+msgid "version"
+msgstr ""
+
+#: shortcodes/oik-themes.php:167
+msgid "Produce a download button for a theme"
+msgstr "Produire un bouton de téléchargement pour un thème"
+
+#: shortcodes/oik-themes.php:172
+msgid "name of the theme"
+msgstr "nom du thème"
+
+#. Plugin Name of the plugin/theme
+msgid "oik themes server"
+msgstr "serveur de thèmes OIK"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.oik-plugins.com/oik-plugins/oik-themes"
+msgstr "http://www.oik-plugins.com/oik-plugins/oik-themes"
+
+#. Description of the plugin/theme
+msgid "oik themes server for themium and free(mium) oik themes"
+msgstr "oik serveur de thèmes"
+
+#. Author of the plugin/theme
+msgid "bobbingwide"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.oik-plugins.com/author/bobbingwide"
+msgstr "http://www.oik-plugins.com/author/bobbingwide"
+

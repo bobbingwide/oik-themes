@@ -1,6 +1,9 @@
-<?php // (C) Copyright Bobbing Wide 2012, 2013
+<?php // (C) Copyright Bobbing Wide 2012-2015
 
-
+/**
+ * Create a link to purchase a premium version
+ *
+ */
 function _oikth_purchase_premiumversion( $version, $post, $class ) {
   $link_id = get_post_meta( $post->ID, "_oikth_prod", true );
   if ( $link_id ) {
@@ -46,8 +49,8 @@ function _oikth_download_freeversion( $version, $post, $class ) {
  * Using type: None in the mean time. 
  */
 function _oikth_download_wordpressversion( $post, $slug ) {
-  $link = "http://downloads.wordpress.org/theme/$slug.zip";
-  $link = "http://wordpress.org/themes/download/$slug.zip";
+  //$link = "http://downloads.wordpress.org/theme/$slug.zip";
+  //$link = "http://wordpress.org/themes/download/$slug.zip";
   $link = "http://wordpress.org/themes/$slug";
   $text = __( "Download" );
   $text .= "&nbsp;";
@@ -56,12 +59,15 @@ function _oikth_download_wordpressversion( $post, $slug ) {
 } 
 
 /**
+ * Create a link to download the latest theme version
+ * 
  */
 function _oikth_download_version( $version, $post, $class, $slug ) {
   if ( $version->post_type == "oik_premiumversion" ) {
     _oikth_purchase_premiumversion( $version, $post, $class );    
   } else {
     $theme_type = get_post_meta( $post->ID, "_oikth_type", true );
+		bw_trace2( $theme_type, "theme_type" );
     switch ( $theme_type ) {
       case 0:
         // No theme type specified - do not create a download link
@@ -100,15 +106,37 @@ function _oikth_download_version( $version, $post, $class, $slug ) {
  *   theme=  default: oik
  *   class=   default: download
  * 
+  // @TODO **?** return the theme slug from the currently selected $post if it is of type "oik-themes"
  */
 function oikth_download( $atts=null ) {
-  // @TODO **?** return the theme slug from the currently selected $post if it is of type "oik-themes"
-  
   $theme = bw_array_get( $atts, "theme", "oik" );
   $class = bw_array_get( $atts, 'class', NULL ) . "download" ;
   oik_require( "feed/oik-themes-feed.php", "oik-themes" );
   oik_require( "admin/oik-admin.inc" );
-  $slug = bw_get_slug( $theme );   
+	
+	if ( $theme == '.' ) {
+		$post_type = bw_global_post_type();
+		if ( $post_type == "oik-themes" ) {
+			$post_id = bw_current_post_id();
+			$slug = get_post_meta( $post_id, "_oikth_slug", true );
+			//bw_trace2( $slug, "slug" );
+	//	}  elseif ( $post_type == "oik_themeversion" ) {
+		//	$plugin_version = bw_current_post_id();
+	//		$plugin_id = get_post_meta( $plugin_version, "_oikpv_plugin", true );
+	//		$slug = get_post_meta( $plugin_id, "_oikp_slug", true );
+	//		
+	//	} elseif ( $post_type == "oik_themiumversion" ) {
+	//		$plugin_version = bw_current_post_id();
+//			$plugin_id = get_post_meta( $plugin_version, "_oikpv_plugin", true );
+//			$slug = get_post_meta( $plugin_id, "_oikp_slug", true );
+		} else {
+			bw_trace2( "not an oik theme" );
+		}
+		
+	} else { 
+		$slug = bw_get_slug( $theme );
+	}
+	//bw_trace2( $slug, "slug" );
   $post = oikth_load_theme( $slug );
   if ( $post ) {
     $version = oikth_load_themeversion( $post );
@@ -116,14 +144,17 @@ function oikth_download( $atts=null ) {
       _oikth_download_version( $version, $post, $class, $slug );
     } else {
       $theme_type = get_post_meta( $post->ID, "_oikth_type", true );
-      if ( $theme_type == 0 ) {
-        //  **?** Don't do anything yet
-        // alink( null, "http://wordpress.org", "
-      } elseif ( $theme_type == 1 ) {
-        _oikth_download_wordpressversion( $post, $slug );
-      } else {  
-        p( "$theme: latest version not available for download" );
-      }  
+			switch ( $theme_type ) {
+				case '1':
+					_oikth_download_wordpressversion( $post, $slug );
+					break;
+					
+				case '0':
+				case '4':
+					break;
+				default:
+					p( "$slug: latest version not available for download" );
+			}
     }   
   } else {
     p( "Unknown theme: $slug " );

@@ -2,9 +2,9 @@
 Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags:  themes, server, shortcodes, FREE, premium
-Requires at least: 4.0
-Tested up to: 4.1
-Stable tag: 0.7
+Requires at least: 4.2
+Tested up to: 4.3-beta3
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,9 @@ This won't create a download button but the theme will be accessible if the user
 3. display oik-theme
 
 == Upgrade Notice ==
+= 1.0.0 = 
+Pre-requisite to using the genesis-oik theme on oik-plugins.
+
 = 0.7 = 
 Needed to deliver theme upgrades when oik-bwtrace is activated.
 
@@ -71,6 +74,13 @@ Depends on oik-plugins v1.2 or higher
 Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2 
 
 == Changelog ==
+= 1.0.0 =
+* Changed: [oikth_download] shortcode now allows download of a previous theme version
+* Changed: Now using Semantic versioning
+* Changed: Preparing for Internationalization and Localization
+* Changed: Custom post types support has_archive
+* Tested: With WordPress 4.2 and above 
+
 = 0.7 = 
 * Changed: Updated logic to handle display of titles in tables. Includes: title and excerpt
 * Changed: oik-themes can now be shown in an archive
@@ -112,5 +122,4 @@ Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2
 == Further reading ==
 If you want to read more about the oik plugins then please visit the
 [oik plugin](http://www.oik-plugins.com/oik) 
-**"the oik plugin - for often included key-information"**
 

@@ -4,10 +4,13 @@ Plugin Name: oik themes server
 Depends: oik base plugin, oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-themes
 Description: oik themes server for themium and free(mium) oik themes
-Version: 0.7
+Version: 1.0.0
 Author: bobbingwide
-Author URI: http://www.bobbingwide.com
-License: GPL2
+Author URI: http://www.oik-plugins.com/author/bobbingwide
+Text Domain: oik-themes
+Domain Path: /languages/
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
     Copyright 2013-2015 Bobbing Wide (email : herb@bobbingwide.com )
 
@@ -261,6 +264,7 @@ function oik_register_oik_themeversion() {
   $post_type_args['label'] = __( 'oik theme versions', 'oik-themes' );
   $post_type_args['description'] = __( 'oik theme version', 'oik-themes' );
   $post_type_args['taxonomies'] = array( 'required_version', 'compatible_up_to' );
+  $post_type_args['has_archive'] = true;
   $post_type_args['menu_icon'] = 'dashicons-shield';
   bw_register_post_type( $post_type, $post_type_args );
   oik_register_oik_themeversion_fields( $post_type );
@@ -349,6 +353,7 @@ function oik_register_oik_themiumversion() {
   $post_type_args['label'] = __( 'oik themium versions', 'oik-themes' );
   $post_type_args['description'] = __( 'oik themium theme version', 'oik-themes' );
   $post_type_args['taxonomies'] = array( 'required_version', 'compatible_up_to' );
+  $post_type_args['has_archive'] = true;
   $post_type_args['menu_icon'] = 'dashicons-shield-alt';
   bw_register_post_type( $post_type, $post_type_args );
   oik_register_oik_themeversion_fields( $post_type ); 
@@ -598,6 +603,7 @@ function oikth_admin_menu() {
  * Dependency checking for oik-themes
  *
  * v0.7 dependent upon oik 2.4, oik-fields 1.39 and oik-plugins
+ * v1.0.0 dependent upon oik v2.6-alpha.0722, oik-fields 1.40 and oik-plugins 1.15.1
  */ 
 function oikth_activation() {
   static $plugin_basename = null;
@@ -608,7 +614,7 @@ function oikth_activation() {
       require_once( "admin/oik-activation.php" );
     }
   }  
-  $depends = "oik-plugins:1.14,oik-fields:1.39,oik:2.4";
+  $depends = "oik-plugins:1.15.1,oik-fields:1.40,oik:2.6-alpha.0722";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
 }
 
