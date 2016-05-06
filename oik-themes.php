@@ -4,12 +4,12 @@ Plugin Name: oik themes server
 Depends: oik base plugin, oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-themes
 Description: oik themes server for themium and free(mium) oik themes
-Version: 0.6
+Version: 0.7
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
 
-    Copyright 2013,2014 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2013-2015 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -145,6 +145,7 @@ function oik_register_oik_theme() {
   $post_type_args['label'] = __( 'oik themes', "oik" );
   $post_type_args['description'] = __( 'oik theme', "oik" );
   $post_type_args['supports'] = array( 'title', 'editor', 'thumbnail', 'excerpt' );
+  $post_type_args['has_archive'] = true;
   $post_type_args['menu_icon'] = 'dashicons-admin-appearance';
   bw_register_post_type( $post_type, $post_type_args );
 
@@ -198,7 +199,7 @@ function oikth_columns_and_titles( $post_type ) {
   add_filter( "manage_edit-${post_type}_columns", "${post_type_namify}_columns", 10, 2 );
   add_action( "manage_${post_type}_posts_custom_column", "bw_custom_column_admin", 10, 2 );
   add_filter( "oik_table_fields_${post_type}", "${post_type_namify}_fields", 10, 2 );
-  add_filter( "oik_table_titles_${post_type}", "${post_type_namify}_titles", 10, 3 ); 
+  //add_filter( "oik_table_titles_${post_type}", "${post_type_namify}_titles", 10, 3 ); 
 }
 
 /**
@@ -217,6 +218,8 @@ function oik_themes_columns( $columns, $arg2=null ) {
  * Return the fields to be displayed in a table
  */ 
 function oik_themes_fields( $fields, $arg2 ) {
+  $fields['title'] = 'title';
+  $fields['excerpt'] = 'excerpt';
   $fields['_oikth_type'] = '_oikth_type';
   $fields['_oikth_slug'] = '_oikth_slug';
   $fields['_oikth_desc'] = '_oikth_desc' ;
@@ -315,6 +318,8 @@ function oik_themeversion_columns( $columns, $args=null ) {
  * Return the fields to be displayed in a table
  */ 
 function oik_themeversion_fields( $fields, $arg2 ) {
+  $fields['title'] = 'title';
+  $fields['excerpt'] = 'excerpt';
   $fields['_oiktv_version'] = '_oiktv_version' ;
   return( $fields );
 }
@@ -358,6 +363,8 @@ function oik_themiumversion_columns( $columns, $args=null ) {
  * Return the fields to be displayed in a table
  */ 
 function oik_themiumversion_fields( $fields, $arg2 ) {
+  $fields['title'] = 'title';
+  $fields['excerpt'] = 'excerpt';
   $fields['_oiktv_version'] = '_oiktv_version' ;
   return( $fields );
 }
@@ -589,6 +596,8 @@ function oikth_admin_menu() {
 
 /**
  * Dependency checking for oik-themes
+ *
+ * v0.7 dependent upon oik 2.4, oik-fields 1.39 and oik-plugins
  */ 
 function oikth_activation() {
   static $plugin_basename = null;
@@ -599,7 +608,7 @@ function oikth_activation() {
       require_once( "admin/oik-activation.php" );
     }
   }  
-  $depends = "oik-plugins:1.10,oik-fields:1.35,oik:2.2";
+  $depends = "oik-plugins:1.14,oik-fields:1.39,oik:2.4";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
 }
 

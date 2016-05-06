@@ -2,9 +2,9 @@
 * Contributors: bobbingwide
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags:  themes, server, shortcodes, FREE, premium
-* Requires at least: 3.9
-* Tested up to: 3.9.1
-* Stable tag: 0.6
+* Requires at least: 4.0
+* Tested up to: 4.1
+* Stable tag: 0.7
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,8 +51,12 @@ This won't create a download button but the theme will be accessible if the user
 3. display oik-theme
 
 ## Upgrade Notice 
+# 0.7 
+Needed to deliver theme upgrades when oik-bwtrace is activated.
+
 # 0.6 
 Changed plugin dependency versions. Now supported on WordPress 3.9 or higher
+
 # 0.5 
 Required for oik-plugins.com. Now depends on oik v2.1
 
@@ -67,6 +71,14 @@ Depends on oik-plugins v1.2 or higher
 Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2
 
 ## Changelog 
+# 0.7 
+* Changed: Updated logic to handle display of titles in tables. Includes: title and excerpt
+* Changed: oik-themes can now be shown in an archive
+* Changed: oikp_lazy_redirect() sets DOING_AJAX to prevent oik-bwtrace from sending output back to the client
+* Dropped: Support for WordPress 3.9 or earlier
+* Tested: With WordPress 4.1 and WordPress Multisite
+* Changed: Now depends on oik v2.4, oik-plugins v1.10 and oik-fields v1.39 or higher
+
 # 0.6 
 * Changed: Plugin dependency versions.
 * Changed: oikth_update_check() returns the theme's slug in $response->theme

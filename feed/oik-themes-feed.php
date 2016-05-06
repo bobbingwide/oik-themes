@@ -1,10 +1,10 @@
 <?php
 /** 
 Author: bobbingwide
-Author URI: http://www.bobbingwide.com
+Author URI: http://www.oik-plugins.com/author/bobbingwide
 License: GPL2
 
-    Copyright 2012-2014 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2015 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -156,9 +156,13 @@ function _oikth_lazy_redirect_info( $oik_theme_action ) {
 
 /**
  * Implement lazy redirect for the selected action
+ * 
  * @param string $oik_theme_action should be one of "info", "update_check" 
  */ 
 function oikth_lazy_redirect( $oik_theme_action ) {
+if ( !defined('DOING_AJAX') ) {
+    define( 'DOING_AJAX', true );
+  }
   $funcname = bw_funcname( "_oikth_lazy_redirect", $oik_theme_action );
   $funcname( $oik_theme_action );
   exit();
