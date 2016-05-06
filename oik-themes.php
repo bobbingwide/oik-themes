@@ -4,7 +4,7 @@ Plugin Name: oik themes server
 Depends: oik base plugin, oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-themes
 Description: oik themes server for themium and free(mium) oik themes
-Version: 0.1
+Version: 0.2
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
@@ -232,12 +232,22 @@ function oik_register_oik_themeversion() {
   $post_type_args['label'] = 'oik theme versions';
   
   $post_type_args['description'] = 'oik theme version';
+  $post_type_args['taxonomies'] = array( 'required_version', 'compatible_up_to' );
   bw_register_post_type( $post_type, $post_type_args );
+  
+  oik_register_oik_themeversion_fields( $post_type );
+  
+}
+
+/**
+ * Register the fields for the oik_themeversion and oik_themiumversion CPTs 
+ */
+function oik_register_oik_themeversion_fields( $post_type ) {
   
   // The description is the content field
   // The title should contain the name 
   bw_register_field( "_oiktv_theme", "noderef", "theme", array( '#type' => 'oik-themes') );   
-  bw_register_field( "_oiktv_version", "text", "Version (omit the v)" ); 
+  bw_register_field( "_oiktv_version", "text", "Version", array( '#hint' => " (omit the v)" ) ); 
   
   $wp_versions = array( 0 => "3.0.4"
                       , 1 => "3.4.1"
@@ -247,11 +257,11 @@ function oik_register_oik_themeversion() {
                       , 5 => "3.6-alpha-23386" // 8 Feb 2013"
                       );
 
-  bw_register_field( "_oiktv_requires", "select", "Requires", array( '#options' => $wp_versions ) ); 
-  bw_register_field( "_oiktv_tested", "select", "Tested", array( '#options' => $wp_versions ) ); 
+  bw_register_field( "_oiktv_requires", "select", "Requires", array( '#options' => $wp_versions, '#theme' => false ) ); 
+  bw_register_field( "_oiktv_tested", "select", "Tested", array( '#options' => $wp_versions, '#theme' => false ) ); 
   // bw_register_field( "_oiktv_upgrade", "textarea", "Upgrade notice" ); 
-  bw_register_field( "_oiktv_download_count", "numeric", "Download count" );
-  bw_register_field( "_oiktv_update_count", "numeric", "Update count" );
+  bw_register_field( "_oiktv_download_count", "numeric", "Download count", array( '#theme' => false ) );
+  bw_register_field( "_oiktv_update_count", "numeric", "Update count", array( '#theme' => false ) );
   
   bw_register_field_for_object_type( "_oiktv_version", $post_type );
   bw_register_field_for_object_type( "_oiktv_theme", $post_type );
@@ -305,23 +315,10 @@ function oik_register_oik_themiumversion() {
   $post_type_args['label'] = 'oik themium versions';
   
   $post_type_args['description'] = 'oik themium theme version';
+  $post_type_args['taxonomies'] = array( 'required_version', 'compatible_up_to' );
   bw_register_post_type( $post_type, $post_type_args );
   
-  // The description is the content field
-  // The title should contain the name 
-  bw_register_field( "_oiktv_theme", "noderef", "theme", array( '#type' => 'oik-themes') );   
-  bw_register_field( "_oiktv_version", "text", "Version (omit the v)" ); 
-  
-  bw_register_field_for_object_type( "_oiktv_version", $post_type );
-  bw_register_field_for_object_type( "_oiktv_theme", $post_type );
-  bw_register_field_for_object_type( "_oiktv_requires", $post_type );
-  bw_register_field_for_object_type( "_oiktv_tested", $post_type );
-  // bw_register_field_for_object_type( "_oiktv_upgrade", $post_type );
-  bw_register_field_for_object_type( "_oiktv_download_count", $post_type );
-  bw_register_field_for_object_type( "_oiktv_update_count", $post_type );
-  
-  oikth_columns_and_titles( $post_type );
-
+  oik_register_oik_themeversion_fields( $post_type ); 
 }
 
 
@@ -343,25 +340,6 @@ function oik_themiumversion_fields( $fields, $arg2 ) {
 function oik_themiumversion_titles( $titles, $arg2, $fields=null ) {
   return( oik_themeversion_titles( $titles, $arg2 ) );
 }
-
-
-  
-
-/**
-function oik_register_oik_themium() {
-  $post_type = 'oik_themium';
-  $post_type_args = array();
-  $post_type_args['label'] = 'oik themium theme';
-  
-  $post_type_args['description'] = 'oik themium theme';
-  bw_register_post_type( $post_type, $post_type_args );
-  
-  bw_register_field( "_oikpp_theme", "noderef", "theme", array( '#type' => 'oik-themes') );   
-  
-  bw_register_field_for_object_type( "_oikpp_theme", $post_type );
-}
-*/
-
 
 /** 
  * Add the "oik_theme" feed... don't know why! Herb 2012/07/27
@@ -540,20 +518,35 @@ function oikth_the_post_oik_themes( $post ) {
 
   bw_trace2( $additional_content, "additional content" );
   return( $additional_content );
-}  
+} 
+
+/**
+ * Add some content before 'the_content' filtering completes for oik_themeversion
+ */
+function oikth_the_post_oik_themeversion( $post ) {
+  return( '[bw_fields]' ); 
+}
 
 /**
  * Autogenerate additional content for selected post_types
  */
 function oikth_the_content( $content ) {
-  bw_backtrace();
   static $recursed = false;
   if ( !$recursed ) {
     global $post;
-    bw_trace2( $post, "global post" );
-    if ( $post && $post->post_type == "oik-themes" ) {
-      $content .= oikth_the_post_oik_themes( $post );
-    }
+    //bw_trace2( $post, "global post" );
+    if ( $post ) {
+      switch ( $post->post_type ) {
+        case "oik-themes": 
+          $content .= oikth_the_post_oik_themes( $post );
+          break;
+          
+        case "oik_themeversion": 
+        case "oik_themiumversion":
+          $content .= oikth_the_post_oik_themeversion( $post ); 
+          break;  
+      }
+    }  
   }  
   $recursed = true;  
   return( $content );

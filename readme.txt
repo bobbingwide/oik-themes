@@ -3,8 +3,8 @@ Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags:  themes, server, shortcodes, FREE, premium
 Requires at least: 3.5
-Tested up to: 3.5.1
-Stable tag: 0.1
+Tested up to: 3.6
+Stable tag: 0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,16 +19,22 @@ oik-themes server for FREE and Themium oik-themes
 1. Also install and activate either oik-edd or oik-woo to allow the creation of API keys
 
 == Frequently Asked Questions ==
+Can I deliver unique themes to my customer without having the themes listed on the website?
+Answer: Hmm?
 
 
 == Screenshots ==
 1. xyz in action
 
 == Upgrade Notice ==
-= 0.1 = 
-Dependent upon oik v2.0 and oik-fields 
+= 0.2 = 
+Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2 
 
 == Changelog ==
+= 0.2 = 
+* Changed: Now uses custom categories for "Requires" and "Compatible up to" 
+* Note: Requires oik-plugins for definition of custom categories AND other functions to set server fields. 
+
 = 0.1 =
 * Added: First version for delivering oik-plugins's themes: oik2012, nivo2011 and oik20120
 
