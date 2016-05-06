@@ -2,9 +2,9 @@
 * Contributors: bobbingwide
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags:  themes, server, shortcodes, FREE, premium
-* Requires at least: 3.5
-* Tested up to: 3.8.1
-* Stable tag: 0.5
+* Requires at least: 3.9
+* Tested up to: 3.9.1
+* Stable tag: 0.6
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,8 @@ This won't create a download button but the theme will be accessible if the user
 3. display oik-theme
 
 ## Upgrade Notice 
+# 0.6 
+Changed plugin dependency versions. Now supported on WordPress 3.9 or higher
 # 0.5 
 Required for oik-plugins.com. Now depends on oik v2.1
 
@@ -65,6 +67,11 @@ Depends on oik-plugins v1.2 or higher
 Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2
 
 ## Changelog 
+# 0.6 
+* Changed: Plugin dependency versions.
+* Changed: oikth_update_check() returns the theme's slug in $response->theme
+* Changed: Use dashicons for oik-themes, oik_themeversion and oik_themiumversion
+
 # 0.5 
 * Changed: Renamed some functions causing "Cannot redeclare" fatal errors
 

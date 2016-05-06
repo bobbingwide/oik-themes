@@ -370,7 +370,7 @@ function oikth_update_check( $oik_theme_action="update-check" ) {
       if ( $post ) { 
         $version = oikth_load_themeversion( $post );
         if ( $version ) { 
-          //$response->slug = $slug;
+          $response->theme = $slug;
           $response->new_version = oikth_get_latestversion( $version );
           // $response->url = "http://qw/wpit/oik_theme/" . $slug;
           // $response->url = home_url( "/oik-themes/" . $slug );

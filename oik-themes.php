@@ -4,7 +4,7 @@ Plugin Name: oik themes server
 Depends: oik base plugin, oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-themes
 Description: oik themes server for themium and free(mium) oik themes
-Version: 0.5
+Version: 0.6
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
@@ -145,6 +145,7 @@ function oik_register_oik_theme() {
   $post_type_args['label'] = __( 'oik themes', "oik" );
   $post_type_args['description'] = __( 'oik theme', "oik" );
   $post_type_args['supports'] = array( 'title', 'editor', 'thumbnail', 'excerpt' );
+  $post_type_args['menu_icon'] = 'dashicons-admin-appearance';
   bw_register_post_type( $post_type, $post_type_args );
 
 
@@ -257,6 +258,7 @@ function oik_register_oik_themeversion() {
   $post_type_args['label'] = __( 'oik theme versions', 'oik-themes' );
   $post_type_args['description'] = __( 'oik theme version', 'oik-themes' );
   $post_type_args['taxonomies'] = array( 'required_version', 'compatible_up_to' );
+  $post_type_args['menu_icon'] = 'dashicons-shield';
   bw_register_post_type( $post_type, $post_type_args );
   oik_register_oik_themeversion_fields( $post_type );
 }
@@ -318,6 +320,8 @@ function oik_themeversion_fields( $fields, $arg2 ) {
 }
 
 /**
+ * Create titles for oik_themeversion
+ * 
  * Titles are remarkably similar to columns for the admin pages
  * Except when you don't want them by default
  */
@@ -329,11 +333,10 @@ function oik_themeversion_titles( $titles, $arg2, $fields=null ) {
 
 /**
  * Create the oik_themiumversion custom post type
+ * 
  * Any zip file that is attached to this post type should automatically be stored
  * in a safe location so that it can only be downloaded by a controlled request
  * Protected (themium) files will require a valid API key
- * 
- * 
  */
 function oik_register_oik_themiumversion() {
   $post_type = 'oik_themiumversion';
@@ -341,6 +344,7 @@ function oik_register_oik_themiumversion() {
   $post_type_args['label'] = __( 'oik themium versions', 'oik-themes' );
   $post_type_args['description'] = __( 'oik themium theme version', 'oik-themes' );
   $post_type_args['taxonomies'] = array( 'required_version', 'compatible_up_to' );
+  $post_type_args['menu_icon'] = 'dashicons-shield-alt';
   bw_register_post_type( $post_type, $post_type_args );
   oik_register_oik_themeversion_fields( $post_type ); 
 }
@@ -591,9 +595,11 @@ function oikth_activation() {
   if ( !$plugin_basename ) {
     $plugin_basename = plugin_basename(__FILE__);
     add_action( "after_plugin_row_oik-themes/oik-themes.php", "oikth_activation" );   
-    require_once( "admin/oik-activation.php" );
+    if ( !function_exists( "oik_plugin_lazy_activation" ) ) { 
+      require_once( "admin/oik-activation.php" );
+    }
   }  
-  $depends = "oik-fields:1.18,oik:v2.1-alpha,oik-plugins:1.2";
+  $depends = "oik-plugins:1.10,oik-fields:1.35,oik:2.2";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
 }
 
