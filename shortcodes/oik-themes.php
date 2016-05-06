@@ -115,6 +115,7 @@ function oikth_download( $atts=null ) {
   oik_require( "admin/oik-admin.inc" );
 	
 	if ( $theme == '.' ) {
+		oik_require( "includes/bw_posts.inc" );
 		$post_type = bw_global_post_type();
 		if ( $post_type == "oik-themes" ) {
 			$post_id = bw_current_post_id();
@@ -130,7 +131,7 @@ function oikth_download( $atts=null ) {
 //			$plugin_id = get_post_meta( $plugin_version, "_oikpv_plugin", true );
 //			$slug = get_post_meta( $plugin_id, "_oikp_slug", true );
 		} else {
-			bw_trace2( "not an oik theme" );
+			bw_trace2( "not an oik theme", null, true, BW_TRACE_WARNING );
 		}
 		
 	} else { 
