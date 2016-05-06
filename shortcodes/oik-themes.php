@@ -5,9 +5,10 @@ function _oikth_purchase_premiumversion( $version, $post, $class ) {
   $link_id = get_post_meta( $post->ID, "_oikth_prod", true );
   if ( $link_id ) {
     $link = get_permalink( $link_id );
-    $text = "Purchase " . $version->post_name ;
-    $title = "Purchase " . $version->post_name ;  
-    art_button( $link, $text, $title, $class );
+    $text = "Purchase " . $version->post_title ;
+    $title = "Purchase " . $version->post_title ;  
+    //art_button( $link, $text, $title, $class );
+    alink( $class, $link, $text, $title );
   } else {
     p( "Sorry: Product not available for download for: " . $version->post_name );
   }
@@ -30,9 +31,9 @@ function _oikth_download_freeversion( $version, $post, $class ) {
     $text .= $new_version ;
     $text .= retetag( "span" );
     $title = $text; 
-    //alink( $class, $link, $text, $title );
+    alink( $class, $link, $text, $title );
     //or 
-    art_button( $link, $text, $title, $class );
+    //art_button( $link, $text, $title, $class );
   } else {
     p( "Sorry: No download file available for: " . $version->post_name );
   }   

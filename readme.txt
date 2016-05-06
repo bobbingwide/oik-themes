@@ -4,17 +4,18 @@ Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags:  themes, server, shortcodes, FREE, premium
 Requires at least: 3.5
 Tested up to: 3.6.1
-Stable tag: 0.3
+Stable tag: 0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
-oik-themes server for FREE and Themium oik-themes
+oik-themes server for FREE, Themium and Bespoke oik-themes
 
 
 == Installation ==
 1. Upload the contents of the oik-themes plugin to the `/wp-content/plugins/oik-themes' directory
 1. Activate the oik-themes plugin through the 'Plugins' menu in WordPress
+1. Visit Settings > Permalinks to properly register the new custom post types ( oik-themes, oik_themeversion and oik_themiumversion )
 1. To support oik Premium themes use oik options > Server settings to define a secure folder used to store uploaded zip files
 1. Also install and activate either oik-edd or oik-woo to allow the creation of API keys
 
@@ -25,6 +26,7 @@ Can I deliver unique themes to my customer without having the themes listed on t
 
 Answer: Yes. You can have them listed as premium themes (themium) but don't associate them with a product.
 No users will be able to purchase the product so only those with an API key and who already have the theme installed will be able to download the updates.
+OR use Bespoke themes.
 
 = How do I do this? =
 One way of doing this:
@@ -40,7 +42,7 @@ One way of doing this:
 only those users with API keys will be able to upgrade.
 
 = Is there another way? =
-Yes, classify the theme as "Other"
+Yes, classify the theme as "Bespoke"
 This won't create a download button but the theme will be accessible if the user knows the theme name.
 
 == Screenshots ==
@@ -49,6 +51,9 @@ This won't create a download button but the theme will be accessible if the user
 3. display oik-theme
 
 == Upgrade Notice ==
+= 0.4 = 
+Requires oik-plugins v1.4, oik v2.1-alpha.0927 and oik-fields v1.19 or higher
+
 = 0.3 = 
 After installing you need to set the "required_version" and "compatible_up_to" categories for each theme.
 Depends on oik-plugins v1.2 or higher
@@ -57,6 +62,12 @@ Depends on oik-plugins v1.2 or higher
 Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2 
 
 == Changelog ==
+= 0.4 =
+* Added: Field _oikth_demo - for a link to a live demonstration of the theme
+* Added: Field _oikth_template - noderef to "oik-themes" used for child themes
+* Changed: Supports ( manual ) theming of download buttons; Use alink() rather than art_button() for download buttons. 
+* Changed: Re-labelled "Other" as "Bespoke"
+
 = 0.3 =
 * Changed: Removed _oikth_requires and _oikth_tested fields - having previously switched to using Custom categories
 * Changed: Added plugin dependency on oik-plugins:1.2

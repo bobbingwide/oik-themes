@@ -4,7 +4,7 @@ Plugin Name: oik themes server
 Depends: oik base plugin, oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-themes
 Description: oik themes server for themium and free(mium) oik themes
-Version: 0.3
+Version: 0.4
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
@@ -109,7 +109,7 @@ function bw_theme_types() {
                        , 2 => "FREE oik theme"
                        , 3 => "themium oik theme"
                        , 4 => "Other themium theme"
-                       , 5 => "Other"
+                       , 5 => "Bespoke"
                        , 6 => "WordPress and FREE theme"
                        );
   return( $theme_types );                      
@@ -150,8 +150,10 @@ function oik_register_oik_theme() {
 
 
   bw_register_field( "_oikth_type", "select", "Theme type", array( '#options' => bw_theme_types() ) ); 
-  bw_register_field( "_oikth_slug", "text", "Theme slug = theme folder name (e.g. oik)" ); 
-  bw_register_field( "_oikth_desc", "text", "oik theme description" ); 
+  bw_register_field( "_oikth_slug", "text", "Theme name" ); 
+  bw_register_field( "_oikth_desc", "text", "Description" );
+  bw_register_field( "_oikth_demo", "URL", "Live demonstration" ); 
+  bw_register_field( "_oikth_template", "noderef", "Template", array( '#type' => 'oik-themes', '#optional' => true ) ); // Parent theme name
 
   /** Currently we support two different systems for delivering themium themes: WooCommerce and Easy Digital Downloads 
    * The Purchasable product should be completed for each themium oik theme (and Other themium theme? )
@@ -165,6 +167,8 @@ function oik_register_oik_theme() {
   //bw_register_field_for_object_type( "_oikth_name", $post_type );
   bw_register_field_for_object_type( "_oikth_desc", $post_type );
   bw_register_field_for_object_type( "_oikth_prod", $post_type );
+  bw_register_field_for_object_type( "_oikth_demo", $post_type );
+  bw_register_field_for_object_type( "_oikth_template", $post_type );
   oikth_columns_and_titles( $post_type );
 }
 
@@ -266,7 +270,7 @@ function oik_register_oik_themeversion() {
 function oik_register_oik_themeversion_fields( $post_type ) {
   
   bw_register_field( "_oiktv_theme", "noderef", "theme", array( '#type' => 'oik-themes') );   
-  bw_register_field( "_oiktv_version", "text", "Version", array( '#hint' => " (omit the v)" ) ); 
+  bw_register_field( "_oiktv_version", "text", "Version", array( '#hint' => "(omit the v)" ) ); 
   
   /*
   $wp_versions = array( 0 => "3.0.4"
