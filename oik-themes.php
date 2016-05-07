@@ -4,7 +4,7 @@ Plugin Name: oik themes server
 Depends: oik base plugin, oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-themes
 Description: oik themes server for themium and free(mium) oik themes
-Version: 1.0.0
+Version: 1.0.1
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-themes
@@ -12,7 +12,7 @@ Domain Path: /languages/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-    Copyright 2013-2015 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2013-2016 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -29,6 +29,17 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
     http://www.gnu.org/licenses/gpl-2.0.html
 
 */
+
+oikth_plugin_loaded();
+
+/**
+ * Function to invoke when plugin file loaded 
+ */                                
+function oikth_plugin_loaded() {
+  add_action( "init", "oikth_theme_rewrite" );
+  add_action( 'oik_fields_loaded', 'oikth_init' );
+  add_action( "admin_notices", "oikth_activation" );
+}
 
 /** 
  * Implement "init" action for oik themes server
@@ -102,7 +113,9 @@ function oikth_init( ) {
 
 /**
  * Return an array of theme types
+ *
  * This is used as a select field. The alternative is to use a custom category
+ * 
  * @return array - values for different theme types
  */
 function bw_theme_types() {
@@ -118,7 +131,8 @@ function bw_theme_types() {
 }
 
 /**
- * Return an array of theme version types associated with different themes types
+ * Return an array of theme version types associated with different theme types
+ *
  * @return array - post_types for the theme version
  */
 function bw_theme_post_types() {
@@ -136,11 +150,10 @@ function bw_theme_post_types() {
 /**
  * Register the oik-themes custom post type
  *
- * The description is the content field
- * The title should contain the theme slug and the theme description
- * The featured image is for the theme banner
- * You can also manually create excerpts
- * 
+ * - The description is the content field
+ * - The title should contain the theme slug and the theme description
+ * - The featured image is for the theme banner
+ * - You can also manually create excerpts
  */
 function oik_register_oik_theme() {
   $post_type = 'oik-themes';
@@ -231,8 +244,15 @@ function oik_themes_fields( $fields, $arg2 ) {
 }
 
 /**
+ * Return the column titles
+ * 
  * Titles are remarkably similar to columns for the admin pages
- * We remove the Product column since it's not working properly - it's an optional field! 
+ * We remove the Product column since it's not working properly - it's an optional field!
+ *
+ * @param array $titles
+ * @param string $arg2
+ * @param 
+ * @return array Updated titles 
  */
 function oik_themes_titles( $titles, $arg2=null, $fields=null ) {
   $titles = oik_themes_columns( $titles, $arg2 );
@@ -395,10 +415,11 @@ function oikth_theme_feed() {
   oik_lazy_oikth_theme_feed();
 }
 
-/* 
+/**  
  * Return true if the current post is of the selected $post_type
+ * 
  * @param string $test_post_type - post type to check for
- * @return book - true if the current post IS of this type, false in all other cases
+ * @return bool - true if the current post IS of this type, false in all other cases
  */
 function oikth_check_post_type( $test_post_type="oik_themiumversion" ) {
   //bw_trace2( $pagenow, "pagenow" );
@@ -413,6 +434,8 @@ function oikth_check_post_type( $test_post_type="oik_themiumversion" ) {
 }
 
 /**
+ * Build the full external directory
+ *
  * For non Windows servers (e.g. Linux) we need to find the "home" directory and build $external_dir from there
  * @param string - required external directory name with leading and trailing slashes
  * @return string - external directory with "home" directory prepended
@@ -428,19 +451,17 @@ function oikth_build_external_dir( $dir ) {
 }
 
 /**
+ * Create a new file name
+ *
  * Can we alter the filter in wp_handle_upload to control where the file gets stored and the 
  * download URL for it?
  *
- * custom backgrounds and custom headers are created using 
- * wp_file_upload then wp_insert_attachment
- *  
+ * custom backgrounds and custom headers are created using wp_file_upload then wp_insert_attachment
  *
- *
- *  by renaming the .zip file then it's no longer accessible from the uploads directory
- *  BUT we still have links to it and to all intents and purposes it still exists.
- *  So now we can intercept calls to 
- *  download?theme=fred&version=1.18 and access the file from the renamed directory.
- *
+ * Note: by renaming the .zip file then it's no longer accessible from the uploads directory
+ * BUT we still have links to it and to all intents and purposes it still exists.
+ * So now we can intercept calls to 
+ * download?theme=fred&version=1.18 and access the file from the renamed directory.
  *
  */
 function oikth_create_new_file_name( $old_file ) {
@@ -468,8 +489,16 @@ function oikth_create_new_file_name( $old_file ) {
 /**
  * Implement 'wp_handle_upload' filter 
  *
- * @param array $file array containing file, url and type
- 
+ * In [bw_plug name="easy-digital-downloads"] the files are uploaded to an 'edd' directory in the uploads folder
+ * if the post type of the current post is "download" and the current page ( $pagenow ) is  'async-upload.php' or 'media-upload.php'
+ *
+ * Here we check for a zip file ( with theme name and version number) being uploaded for post_type "oik_themiumversion"
+ *
+ * If so the file is renamed ( moved ) to a secret target directory
+ * if not then we don't do anything
+ * In either case the attachment is recorded as if the file has been stored in the uploads
+ *
+ * `
     C:\apache\htdocs\wordpress\wp-includes\theme.php(142:0) 2012-07-23T21:46:22+00:00 8485 cf! apply_filters(14338) 3 Array
     (
         [0] => wp_handle_upload
@@ -482,19 +511,13 @@ function oikth_create_new_file_name( $old_file ) {
 
         [2] => upload
     ) 
-    
+ * `		
+ * 
+ * @param array $file array containing file, url and type
  * @param string action. e.g. 'upload' 
  * @returns array $file - unchanged
  * 
- * In [bw_plug name="easy-digital-downloads"] the files are uploaded to an 'edd' directory in the uploads folder
- * if the post type of the current post is "download" and the current page ( $pagenow ) is  'async-upload.php' or 'media-upload.php'
- *
- * Here we check for a zip file ( with theme name and version number) being uploaded for post_type "oik_themiumversion"
- *
- * If so the file is renamed ( moved ) to a secret target directory
- * if not then we don't do anything
- * In either case the attachment is recorded as if the file has been stored in the uploads
-*/
+ */
 function oikth_handle_upload( $file, $action ) {
   bw_trace2();
   $type = bw_array_get( $file, "type", null );
@@ -532,7 +555,6 @@ function oikth_the_post_oik_themes( $post, $content ) {
 		$additional_content .= $post->post_title;
 		$additional_content .= "']";
   }
-	//	$additional_content .= oikth_tabulate_themeversion( $post, $slug );
 
   if ( is_single() ) {
     oik_require( "includes/oik-themes-content.php", "oik-themes" );
@@ -545,6 +567,9 @@ function oikth_the_post_oik_themes( $post, $content ) {
 
 /**
  * Add some content before 'the_content' filtering completes for oik_themeversion
+ *
+ * @param object $post
+ * @param string $content
  */
 function oikth_the_post_oik_themeversion( $post, $content ) {
   if ( false === strpos( $post->post_content, "[bw_field" ) ) {
@@ -557,6 +582,9 @@ function oikth_the_post_oik_themeversion( $post, $content ) {
 
 /**
  * Autogenerate additional content for selected post_types
+ *
+ * @param string $content
+ * @return string update content
  */
 function oikth_the_content( $content ) {
 	global $post;
@@ -589,6 +617,7 @@ function oikth_admin_menu() {
  *
  * v0.7 dependent upon oik 2.4, oik-fields 1.39 and oik-plugins
  * v1.0.0 dependent upon oik v2.6-alpha.0722, oik-fields 1.40 and oik-plugins 1.15.1
+ * v1.0.1 dependent on higher levels
  */ 
 function oikth_activation() {
   static $plugin_basename = null;
@@ -599,18 +628,6 @@ function oikth_activation() {
       require_once( "admin/oik-activation.php" );
     }
   }  
-  $depends = "oik-plugins:1.15.1,oik-fields:1.40,oik:2.6-alpha.0722";
+  $depends = "oik-plugins:1.15.4,oik-fields:1.40,oik:3.0.0";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
 }
-
-/**
- * Function to invoke when plugin file loaded 
- */                                
-function oikth_plugin_loaded() {
-  add_action( "init", "oikth_theme_rewrite" );
-  add_action( 'oik_fields_loaded', 'oikth_init' );
-  add_action( "admin_notices", "oikth_activation" );
-}
-
-
-oikth_plugin_loaded();
