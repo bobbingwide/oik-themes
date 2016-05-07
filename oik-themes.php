@@ -512,24 +512,43 @@ function oikth_handle_upload( $file, $action ) {
 }
 
 /**
- * Automatically add the table of version information for a FREE or themium oik theme
+ * Add some content before 'the_content' filtering
  * 
- *  [bw_table post_type="oik_themeversion" fields="title,excerpt,_oiktv_version" meta_key="_oiktv_theme" meta_value=89 orderby=date order=DESC]
+ * @param post $post
+ * @param string $content - the current content
+ * @return string additional content
  */
-function oikth_tabulate_themeversion( $post ) {
-  $version_type = get_post_meta( $post->ID, "_oikth_type", true );
-  $versions = array( null, null, "oik_themeversion", "oik_themiumversion" );
-  $post_type = bw_array_get( $versions, $version_type, null ); 
-  if ( $post_type ) {
-    $additional_content = "[bw_table";
-    $additional_content .= kv( "post_type", $post_type );
-    
-    $additional_content .= kv( "fields", "title,excerpt,_oiktv_version" );
-    $additional_content .= kv( "meta_key", "_oiktv_theme" );
-    $additional_content .= kv( "meta_value", $post->ID );
-    $additional_content .= kv( "orderby", "date" );
-    $additional_content .= kv( "order", "DESC" );
-    $additional_content .= "]";
+function oikth_the_post_oik_themes( $post, $content ) {
+	do_action( "oik_add_shortcodes" );
+	$additional_content = null;
+  
+	$slug = get_post_meta( $post->ID, "_oikth_slug", true );
+	
+	if ( !is_single() && false === strpos( $post->post_content, "[oikth_download" ) ) {
+  
+		$additional_content .= "[clear][oikth_download theme='$slug' text='" ;
+		$additional_content .= __( "Download", "oik-themes" );
+		$additional_content .= " ";
+		$additional_content .= $post->post_title;
+		$additional_content .= "']";
+  }
+	//	$additional_content .= oikth_tabulate_themeversion( $post, $slug );
+
+  if ( is_single() ) {
+    oik_require( "includes/oik-themes-content.php", "oik-themes" );
+    $content = oikth_additional_content( $post, $slug );
+  } else {
+    $content .= $additional_content;
+  }  
+  return( $content );
+} 
+
+/**
+ * Add some content before 'the_content' filtering completes for oik_themeversion
+ */
+function oikth_the_post_oik_themeversion( $post, $content ) {
+  if ( false === strpos( $post->post_content, "[bw_field" ) ) {
+    $additional_content = "[bw_fields]";
   } else {
     $additional_content = null;
   }     
@@ -537,66 +556,32 @@ function oikth_tabulate_themeversion( $post ) {
 }
 
 /**
- * Add some content before 'the_content' filtering
- * 
- * @param post $post
- * @return string additional content
- */
-function oikth_the_post_oik_themes( $post ) {
-  
-  $slug = get_post_meta( $post->ID, "_oikth_slug", true );
-  
-  $additional_content = "[oikth_download theme='$slug' text='" ;
-  $additional_content .= "Download";
-  $additional_content .= " ";
-  $additional_content .= $post->post_title;
-  $additional_content .= "']";
-  
-  //  gobang();
-  $additional_content .= oikth_tabulate_themeversion( $post );
-
-  bw_trace2( $additional_content, "additional content" );
-  return( $additional_content );
-} 
-
-/**
- * Add some content before 'the_content' filtering completes for oik_themeversion
- */
-function oikth_the_post_oik_themeversion( $post ) {
-  return( '[bw_fields]' ); 
-}
-
-/**
  * Autogenerate additional content for selected post_types
  */
 function oikth_the_content( $content ) {
-  static $recursed = false;
-  if ( !$recursed ) {
-    global $post;
-    //bw_trace2( $post, "global post" );
-    if ( $post ) {
-      switch ( $post->post_type ) {
-        case "oik-themes": 
-          $content .= oikth_the_post_oik_themes( $post );
-          break;
-          
-        case "oik_themeversion": 
-        case "oik_themiumversion":
-          $content .= oikth_the_post_oik_themeversion( $post ); 
-          break;  
-      }
-    }  
-  }  
-  $recursed = true;  
-  return( $content );
+	global $post;
+	//bw_trace2( $post, "global post" );
+	if ( $post ) {
+		switch ( $post->post_type ) {
+			case "oik-themes": 
+				$content = oikth_the_post_oik_themes( $post, $content );
+				break;
+						
+			case "oik_themeversion": 
+			case "oik_themiumversion":
+				$content .= oikth_the_post_oik_themeversion( $post, $content ); 
+				break;  
+		}
+	}  
+	return( $content );
 }
 
 /**
  * Implement "oik_admin_menu" for oik-themes 
  */
 function oikth_admin_menu() {
-  oik_require( "admin/oik-themes.php", "oik-themes" );
-  oikth_lazy_admin_menu();
+	oik_require( "admin/oik-themes.php", "oik-themes" );
+	oikth_lazy_admin_menu();
 }
 
 /**
