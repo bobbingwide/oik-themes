@@ -186,6 +186,8 @@ function oik_register_oik_theme() {
   bw_register_field_for_object_type( "_oikth_prod", $post_type );
   bw_register_field_for_object_type( "_oikth_demo", $post_type );
   bw_register_field_for_object_type( "_oikth_template", $post_type );
+	
+  bw_register_field_for_object_type( "_oikp_git", $post_type );
   oikth_columns_and_titles( $post_type );
 }
 
