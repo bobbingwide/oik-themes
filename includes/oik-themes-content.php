@@ -14,8 +14,9 @@
  * 4    | "Other premium theme"						| Omit: FAQ, Changelog, Screenshots, Documentation
  * 5    | "Bespoke theme"									| All
  * 6    | "WordPress and FREE theme"		  | All
- 
- 
+ *
+ * 
+ * Note: FAQ and screenshots are not yet supported for oik-themes
  *
  * @param object $post the post object
  * @return array keyed by tab of valid tabs for this theme type
@@ -50,11 +51,17 @@ function oikth_additional_content_tabs( $post ) {
 
 /**
  * Decide which tabs to display based on website information
+ * 
  * A2Z - displays APIs Classes Files Hooks
  * oik-plugins - displays apiref
+ * 
  *
  * We should use an option field 
- *  
+ * 
+ * - apiref shortcode is currently:
+ * `<h3>APIs</h3> [apis] <h3>Classes</h3> [classes] <h3>Files</h3> [files] <h3>Hooks</h3> [hooks]`
+ * - themeref shortcode is currently:
+ * `<h3>Files</h3> [files] <h3>Hooks</h3> [hooks]<h3>APIs</h3> [apis] <h3>Classes</h3> [classes]`
  */ 
 function oikth_oikth_additional_content_tabs( $tabs, $post ) {
 	$use_apiref_shortcode = bw_get_option( "apiref", "bw_themes_server" );
@@ -161,7 +168,9 @@ function oikth_additional_content( $post, $slug=null ) {
  */
 function oikth_tabulate_themeversion( $post ) {
   $version_type = get_post_meta( $post->ID, "_oikth_type", true );
-  $versions = array( null, null, "oik_themeversion", "oik_themiumversion" );
+  //$versions = array( null, null, "oik_themeversion", "oik_themiumversion" );
+	
+  $versions = bw_theme_post_types();
   $post_type = bw_array_get( $versions, $version_type, null ); 
   if ( $post_type ) {
     $additional_content = "[bw_table";
@@ -234,10 +243,25 @@ function oikth_display_screenshots( $post, $slug ) {
  * 
  * Uses the [codes] shortcode which determines the theme automatically
  *
+ * For a child theme we can also display the shortcodes from the Template theme.
+ * 
+ *
  */
 function oikth_display_shortcodes( $post, $slug ) {
   $additional_content = "[codes posts_per_page=.]";
+	$additional_content .= oikth_display_template_shortcodes( $post, $slug );
   return( $additional_content ); 
+}
+
+function oikth_display_template_shortcodes( $post, $slug ) {
+	$additional_content = null;
+	$template_theme = get_post_meta( $post->ID, "_oikth_template", true );
+	if ( $template_theme ) {
+		$additional_content = "<h3>Template shortcodes</h3>";
+		$additional_content .= "[codes component=$template_theme posts_per_page=.]";
+	}
+	return( $additional_content );
+
 }
 
 /**
