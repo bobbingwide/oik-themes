@@ -178,7 +178,9 @@ function oik_register_oik_theme() {
   $purchasable_product_type = array();
   $purchasable_product_type[] = "download"; 
   $purchasable_product_type[] = "product"; 
-  bw_register_field( "_oikth_prod", "noderef", "Purchasable product", array( '#type' => $purchasable_product_type, '#optional' => true ) );   
+  bw_register_field( "_oikth_prod", "noderef", "Purchasable product", array( '#type' => $purchasable_product_type, '#optional' => true ) ); 
+	  
+	bw_register_field_for_object_type( "_component_version", $post_type );
   bw_register_field_for_object_type( "_oikth_type", $post_type );
   bw_register_field_for_object_type( "_oikth_slug", $post_type );
   //bw_register_field_for_object_type( "_oikth_name", $post_type );
