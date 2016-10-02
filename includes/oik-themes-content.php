@@ -14,6 +14,7 @@
  * 4    | "Other premium theme"						| Omit: FAQ, Changelog, Screenshots, Documentation
  * 5    | "Bespoke theme"									| All
  * 6    | "WordPress and FREE theme"		  | All
+ * 7    | "Other theme"              | 
  *
  * 
  * Note: FAQ and screenshots are not yet supported for oik-themes
@@ -44,8 +45,14 @@ function oikth_additional_content_tabs( $post ) {
 			unset( $tabs['screenshots'] );	
 			unset( $tabs['changelog'] );
 			break;
-	}	
-	$tabs = oikth_oikth_additional_content_tabs( $tabs, $post );					 
+			
+		case 7:
+			$tabs = null;
+			break;
+	}
+	if ( $tabs ) {	
+		$tabs = oikth_oikth_additional_content_tabs( $tabs, $post );					 
+	}
 	return( $tabs );
 }
 
@@ -99,33 +106,43 @@ function oikth_oikth_additional_content_tabs( $tabs, $post ) {
  */
 function oikth_additional_content_links( $post, $current_tab ) {
 	$tabs = oikth_additional_content_tabs( $post ); 
-	$valid = bw_array_get( $tabs, $current_tab, false );
-	if ( !$valid ) { 
-		return( $valid );
-	}						 
-	$url = get_permalink( $post->ID );
-	wp_enqueue_style( "oik-themesCSS", oik_url( "css/oik-themes.css", "oik-themes" ) );
-  bw_push();
-  sdiv( "theme-info" );
-  sul( null, "sections" );
-  foreach ( $tabs as $tab => $label ) {
-    $class = "section-$tab" ;
-    $target_url = add_query_arg( "oik-tab", $tab, $url );
-    if ( $tab === $current_tab ) {
-      stag( "li", "current" );
-    } else {
-      stag( "li" );
-    }
-    alink( $class, $target_url, $label ); 
-    etag( "li" );
-  }
-  eul();
-  ediv();
-  sediv( "clear" );
-  sdiv( "theme-body" );
-  $ret = bw_ret(); 
-  bw_pop();
-  return( $ret );
+	if ( $tabs ) {
+		$valid = bw_array_get( $tabs, $current_tab, false );
+		if ( !$valid ) { 
+			e( "Current tab: $current_tab ");
+			return( $valid );
+		}	
+							 
+		$url = get_permalink( $post->ID );
+		wp_enqueue_style( "oik-themesCSS", oik_url( "css/oik-themes.css", "oik-themes" ) );
+		bw_push();
+		sdiv( "theme-info" );
+		sul( null, "sections" );
+		foreach ( $tabs as $tab => $label ) {
+			$class = "section-$tab" ;
+		 $target_url = add_query_arg( "oik-tab", $tab, $url );
+		 if ( $tab === $current_tab ) {
+			 stag( "li", "current" );
+		 } else {
+			 stag( "li" );
+		 }
+		 alink( $class, $target_url, $label ); 
+		 etag( "li" );
+		}
+		eul();
+		ediv();
+		sediv( "clear" );
+	
+		sdiv( "theme-body" );
+		$ret = bw_ret(); 
+		bw_pop();
+	} else {
+		bw_push();	
+		sdiv( "theme-body" );
+		$ret = bw_ret();
+		bw_pop();
+	}
+	return( $ret );
 }
 
 /**
