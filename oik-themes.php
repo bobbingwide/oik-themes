@@ -123,7 +123,7 @@ function bw_theme_types() {
                        , 1 => "WordPress theme"
                        , 2 => "FREE oik theme"
                        , 3 => "Premium oik theme"
-                       , 4 => "Other theme"
+                       , 4 => "Other premium theme"
                        , 5 => "Bespoke"
                        , 6 => "WordPress and FREE theme"
 											 , 7 => "Other theme"
@@ -165,6 +165,10 @@ function oik_register_oik_theme() {
   $post_type_args['supports'] = array( 'title', 'editor', 'thumbnail', 'excerpt' );
   $post_type_args['has_archive'] = true;
   $post_type_args['menu_icon'] = 'dashicons-admin-appearance';
+	
+	$post_type_args['show_in_rest'] = true;
+	$post_type_args['rest_base'] = 'oik-themes';
+	$post_type_args['rest_controller_class'] = 'WP_REST_Posts_Controller';
   bw_register_post_type( $post_type, $post_type_args );
 
 
