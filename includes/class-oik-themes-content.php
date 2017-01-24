@@ -1,4 +1,18 @@
-<?php // (C) Copyright Bobbing Wide 2015, 2016
+<?php // (C) Copyright Bobbing Wide 2015-2017
+
+
+/**
+ * Class: OIK_themes_content
+ *
+ */
+class OIK_themes_content { 
+
+	public $post;
+	public $post_id;
+	public $slug;
+
+	function __construct() {
+	}
 	 
 /**
  * Determine the tabs to display
@@ -14,7 +28,7 @@
  * 4    | "Other premium theme"						| Omit: FAQ, Changelog, Screenshots, Documentation
  * 5    | "Bespoke theme"									| All
  * 6    | "WordPress and FREE theme"		  | All
- * 7    | "Other theme"              | 
+ * 7    | "Other theme"                   | 
  *
  * 
  * Note: FAQ and screenshots are not yet supported for oik-themes
@@ -23,7 +37,7 @@
  * @return array keyed by tab of valid tabs for this theme type
  *
  */	 
-function oikth_additional_content_tabs( $post ) {
+function additional_content_tabs( $post ) {
   $tabs = array( "description" => "Description"
                //, "faq" => "FAQ"
                //, "screenshots" => "Screenshots"
@@ -51,7 +65,8 @@ function oikth_additional_content_tabs( $post ) {
 			break;
 	}
 	if ( $tabs ) {	
-		$tabs = oikth_oikth_additional_content_tabs( $tabs, $post );					 
+		$tabs = $this->oikth_additional_content_tabs( $tabs, $post );	
+		//$tabs = $this->check_content_for_tabs( $tabs ); 				 
 	}
 	return( $tabs );
 }
@@ -70,8 +85,8 @@ function oikth_additional_content_tabs( $post ) {
  * - themeref shortcode is currently:
  * `<h3>Files</h3> [files] <h3>Hooks</h3> [hooks]<h3>APIs</h3> [apis] <h3>Classes</h3> [classes]`
  */ 
-function oikth_oikth_additional_content_tabs( $tabs, $post ) {
-	$use_apiref_shortcode = bw_get_option( "apiref", "bw_themes_server" );
+function oikth_additional_content_tabs( $tabs, $post ) {
+	$use_apiref_shortcode = bw_get_option( "apiref", "bw_plugins_server" );
 	if ( $use_apiref_shortcode ) {
 
 	} else {
@@ -104,8 +119,8 @@ function oikth_oikth_additional_content_tabs( $tabs, $post ) {
  * [apiref] DIY shortcode breaks down into
  * <h3>APIs</h3> [apis] <h3>Classes</h3> [classes] <h3>Files</h3> [files] <h3>Hooks</h3> [hooks]
  */
-function oikth_additional_content_links( $post, $current_tab ) {
-	$tabs = oikth_additional_content_tabs( $post ); 
+function additional_content_links( $post, $current_tab ) {
+	$tabs = $this->additional_content_tabs( $post ); 
 	if ( $tabs ) {
 		$valid = bw_array_get( $tabs, $current_tab, false );
 		if ( !$valid ) { 
@@ -152,22 +167,25 @@ function oikth_additional_content_links( $post, $current_tab ) {
  *  
  *
  */
-function oikth_additional_content( $post, $slug=null ) {
-  $oik_tab = bw_array_get( $_REQUEST, "oik-tab", "description" ); 
-  $additional_content = oikth_additional_content_links( $post, $oik_tab );
+function additional_content( $post, $slug=null ) {
+	$this->post = $post;
+	$this->post_id = $post->ID;
+	$this->slug = $slug;
+	$oik_tab = bw_array_get( $_REQUEST, "oik-tab", "description" ); 
+  $additional_content = $this->additional_content_links( $post, $oik_tab );
   if ( $oik_tab ) {
-    $tabs = array( "description" => "oikth_display_description"
-                 , "faq" => "oikth_display_faq"
-                 , "screenshots" => "oikth_display_screenshots"
-                 , "changelog" => "oikth_tabulate_themeversion" 
-                 , "shortcodes" => "oikth_display_shortcodes" 
-                 , "apiref" => "oikth_display_apiref"
-                 , "documentation" => "oikth_display_documentation" 
+    $tabs = array( "description" => "display_description"
+                 , "faq" => "display_faq"
+                 , "screenshots" => "display_screenshots"
+                 , "changelog" => "tabulate_themeversion" 
+                 , "shortcodes" => "display_shortcodes" 
+                 , "apiref" => "display_apiref"
+                 , "documentation" => "display_documentation" 
                  );
-    $oik_tab_function = bw_array_get( $tabs, $oik_tab, "oikth_display_unknown" );
+    $oik_tab_function = bw_array_get( $tabs, $oik_tab, "display_unknown" );
     if ( $oik_tab_function ) {
-      if ( is_callable( $oik_tab_function ) ) {
-        $additional_content .= $oik_tab_function( $post, $slug );
+      if ( is_callable( array( $this, $oik_tab_function ) ) ) {
+        $additional_content .= $this->$oik_tab_function( $post, $slug );
       } else {
         $additional_content .= "Missing: $oik_tab_function";
       }
@@ -183,7 +201,7 @@ function oikth_additional_content( $post, $slug=null ) {
  * 
  *  [bw_table post_type="oik_themeversion" fields="title,excerpt,_oiktv_version" meta_key="_oiktv_theme" meta_value=89 orderby=date order=DESC]
  */
-function oikth_tabulate_themeversion( $post ) {
+function tabulate_themeversion( $post ) {
   $version_type = get_post_meta( $post->ID, "_oikth_type", true );
   //$versions = array( null, null, "oik_themeversion", "oik_themiumversion" );
 	
@@ -210,7 +228,7 @@ function oikth_tabulate_themeversion( $post ) {
  *
  * If there's a shortcode for it then we'll use that
  */
-function oikth_display_unknown( $post, $slug ) {
+function display_unknown( $post, $slug ) {
 	$oik_tab = bw_array_get( $_REQUEST, "oik-tab", "description" ); 
 	if ( shortcode_exists( $oik_tab ) ) {
 		$ret = "[$oik_tab]" ;
@@ -230,14 +248,14 @@ function oikth_display_unknown( $post, $slug ) {
  * @param object $post - the post object
  * @return string - the post content - shortcode will be expanded later
  */
-function oikth_display_description( $post ) {
+function display_description( $post ) {
   return( $post->post_content );
 }
 
 /**
  * Display the FAQ's for the theme
  */
-function oikth_display_faq( $post ) {
+function display_faq( $post ) {
   $id = $post->ID;
   return( "[bw_accordion post_type=oik-faq meta_key=_plugin_ref meta_value=$id format=TEM]" );
 } 
@@ -250,7 +268,7 @@ function oikth_display_faq( $post ) {
  * If not then we need to do what?
  * 
  */
-function oikth_display_screenshots( $post, $slug ) {
+function display_screenshots( $post, $slug ) {
   $additional_content = "[nivo post_type=screenshot:$slug caption=n link=n]";
   return( $additional_content ); 
 }
@@ -264,13 +282,13 @@ function oikth_display_screenshots( $post, $slug ) {
  * 
  *
  */
-function oikth_display_shortcodes( $post, $slug ) {
+function display_shortcodes( $post, $slug ) {
   $additional_content = "[codes posts_per_page=.]";
-	$additional_content .= oikth_display_template_shortcodes( $post, $slug );
+	$additional_content .= $this->display_template_shortcodes( $post, $slug );
   return( $additional_content ); 
 }
 
-function oikth_display_template_shortcodes( $post, $slug ) {
+function display_template_shortcodes( $post, $slug ) {
 	$additional_content = null;
 	$template_theme = get_post_meta( $post->ID, "_oikth_template", true );
 	if ( $template_theme ) {
@@ -287,7 +305,7 @@ function oikth_display_template_shortcodes( $post, $slug ) {
  * Uses the [apiref] shortcode which determines the theme automatically
  *
  */
-function oikth_display_apiref( $post, $slug ) {
+function display_apiref( $post, $slug ) {
   $additional_content = "[apiref]";
   return( $additional_content ); 
 }
@@ -313,7 +331,7 @@ function oikth_display_apiref( $post, $slug ) {
  * [bw_related post_type=post meta_key=_plugin_ref posts_per_page=5 ] - temporarily disabled 2015/03/15
  * `
  */
-function oikth_display_documentation( $post, $slug ) {
+function display_documentation( $post, $slug ) {
 	$field_names = bw_get_field_names( $post->ID );
 	//bw_trace2( $field_names, "field_names" );
 	if ( bw_array_get( bw_assoc( $field_names) , "_oik_doc_home", false ) ) {
@@ -339,3 +357,4 @@ function oikth_display_documentation( $post, $slug ) {
   return( $additional_content ); 
 }
   
+}

@@ -567,8 +567,9 @@ function oikth_the_post_oik_themes( $post, $content ) {
   }
 
   if ( is_single() ) {
-    oik_require( "includes/oik-themes-content.php", "oik-themes" );
-    $content = oikth_additional_content( $post, $slug );
+    oik_require( "includes/class-oik-themes-content.php", "oik-themes" );
+		$oik_themes_content = new OIK_themes_content();
+		$content = $oik_themes_content->additional_content( $post, $slug );
   } else {
     $content .= $additional_content;
   }  
