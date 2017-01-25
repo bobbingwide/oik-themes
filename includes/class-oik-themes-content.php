@@ -66,9 +66,180 @@ function additional_content_tabs( $post ) {
 	}
 	if ( $tabs ) {	
 		$tabs = $this->oikth_additional_content_tabs( $tabs, $post );	
-		//$tabs = $this->check_content_for_tabs( $tabs ); 				 
+		$tabs = $this->check_content_for_tabs( $tabs ); 				 
 	}
 	return( $tabs );
+}
+
+
+/**
+ * Checks content for each tab.
+ *
+ * @param array $tabs
+ * @return array possibly updated to reflect how much content there is.
+ */
+function check_content_for_tabs( $tabs ) {
+	foreach ( $tabs as $tab => $label ) {	
+		$tab_has_content = $this->check_content_for_tab( $tab );
+		if ( null === $tab_has_content ) {
+			unset( $tabs[ $tab ] );
+		}
+	}
+	return( $tabs );
+}
+
+/**
+ * Count the content to be displayed in the tab
+ * 
+ * @param string $tab - the tab name
+ * @return integer|null - the number of items to be displayed. 0 is acceptable for some tabs.
+ */
+function check_content_for_tab( $tab ) {
+	$count = 0;
+	$method = "count_$tab";
+	if ( is_callable( array( $this, $method  ) ) ) {
+		$count = $this->$method();
+	}
+	return( $count );
+}
+
+/**
+ * Counts the Description.
+ */
+function count_description() {
+	return 1;
+}
+
+/**
+ * Counts the FAQs
+ *
+ * @return integer|null count of FAQs associated to this plugin 
+ */
+function count_faq() {
+	$count = null;
+	if ( is_post_type_viewable( "oik-faq" ) ) {
+		oik_require( "includes/bw_posts.inc" );
+		$atts = array( "post_type" => "oik-faq"
+								 , "meta_key" => "_plugin_ref"
+								 , "meta_value" => $this->post_id
+								 );
+		$posts = bw_get_posts( $atts );
+		if ( $posts ) {
+			$count = count( $posts );
+		}
+	}
+	return $count ;
+}
+
+/**
+ * Counts the versions
+ *
+ * @TODO For the time being we'll always return 0 for any of our plugins since this is useful information
+ * and we'll expect there to be at least one version. 
+ *
+ * @return 0  
+ */
+function count_changelog() {
+	return 1;
+}
+
+/** 
+ * Counts the shortcodes
+ */
+function count_shortcodes() {
+	$count = $this->count_viewable( "oik_shortcodes", "_oik_sc_plugin", $this->post_id );
+	if ( null === $count ) {
+		$count = $this->count_template_shortcodes();
+	}
+	return $count ;
+}
+
+/**
+ * Count the viewable items
+ */
+function count_viewable( $post_type, $meta_key, $meta_value ) {
+	$count = null;
+	if ( is_post_type_viewable( $post_type ) ) {
+		oik_require( "includes/bw_posts.inc" );
+		$atts = array( "post_type" => $post_type
+								 , "meta_key" => $meta_key
+								 , "meta_value" => $meta_value
+								 );
+		$posts = bw_get_posts( $atts );
+		if ( $posts ) {
+			$count = count( $posts );
+		}
+	}
+	return $count ;
+}
+
+/**
+ * Count the shortcodes in the template theme
+ */
+function count_template_shortcodes() {
+	$count = null;
+	$template_theme = get_post_meta( $this->post_id, "_oikth_template", true );
+	if ( $template_theme ) {
+		$count = $this->count_viewable( "oik_shortcodes", "_oik_sc_plugin", $template_theme );
+		//echo "Template theme: " . $template_theme . $count;
+		//gob();
+	}
+	return( $count );
+}
+
+/**
+ * Count the APIs
+ *  
+ * [apiref] is a DIY shortcode which is expected to be defined like this:
+ * `
+ * <h3>APIs</h3> [apis] <h3>Classes</h3> [classes] <h3>Files</h3> [files] <h3>Hooks</h3> [hooks]
+ * `
+ * 
+ * @return integer|null 
+ */
+function count_apiref() {
+	if ( shortcode_exists( 'apiref' ) ) {
+		return( 1 );
+	}
+	return( null ); 
+}
+
+/**
+ * Determines if field is registered to post type
+ *
+ * @param string $object_type the post type e.g. 'page'
+ * @param string $field_name the field name e.g. '_oik_sc_plugin'
+ * @return bool true when the field has been registered
+ */
+function is_field_registered( $object_type, $field_name ) {
+	global $bw_mapping;
+	$registered = isset( $bw_mapping['field'][$object_type][$field_name] );
+	return( $registered );
+}
+
+/**
+ * Counts the documentation pages
+ * 
+ * Checks for the relationship between page and _plugin_ref before counting the number of pages listed.
+ * Note: If none are listed then we don't need to check the documentation home page ( _oik_doc_home ) 
+ * since this page should itself have its _plugin_ref field set.
+ * 
+ * @return integer|null Number of documentation pages or null
+ */
+function count_documentation() {
+	$count = null;
+	if ( $this->is_field_registered( "page", "_plugin_ref" ) ) {
+		oik_require( "includes/bw_posts.inc" );
+		$atts = array( "post_type" => "page"
+								 , "meta_key" => "_plugin_ref"
+								 , "meta_value" => $this->post_id
+								 );
+		$posts = bw_get_posts( $atts );
+		if ( $posts ) {
+			$count = count( $posts );
+		}
+	}	
+	return $count ;
 }
 
 /**
