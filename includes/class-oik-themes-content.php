@@ -113,7 +113,7 @@ function count_description() {
 /**
  * Counts the FAQs
  *
- * @return integer|null count of FAQs associated to this plugin 
+ * @return integer|null count of FAQs associated to this theme 
  */
 function count_faq() {
 	$count = null;
@@ -134,17 +134,25 @@ function count_faq() {
 /**
  * Counts the versions
  *
- * @TODO For the time being we'll always return 0 for any of our plugins since this is useful information
- * and we'll expect there to be at least one version. 
- *
- * @return 0  
+ * @return integer|null  
  */
 function count_changelog() {
-	return 1;
+	$count = null;
+  $version_type = get_post_meta( $this->post_id, "_oikth_type", true );
+  $versions = bw_theme_post_types();
+  $post_type = bw_array_get( $versions, $version_type, null ); 
+  if ( $post_type ) {
+		$count = $this->count_viewable( $post_type, "_oiktv_theme", $this->post_id );
+	}
+	return $count;
 }
 
 /** 
- * Counts the shortcodes
+ * Counts the shortcodes 
+ * 
+ * If the theme itself provides no shortcodes, then count the template shortcodes.
+ * 
+ * @return integer|null
  */
 function count_shortcodes() {
 	$count = $this->count_viewable( "oik_shortcodes", "_oik_sc_plugin", $this->post_id );
@@ -233,6 +241,7 @@ function count_documentation() {
 		$atts = array( "post_type" => "page"
 								 , "meta_key" => "_plugin_ref"
 								 , "meta_value" => $this->post_id
+								 , "post_parent" => "." 
 								 );
 		$posts = bw_get_posts( $atts );
 		if ( $posts ) {
