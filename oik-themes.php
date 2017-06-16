@@ -4,7 +4,7 @@ Plugin Name: oik themes server
 Depends: oik base plugin, oik fields
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-themes
 Description: oik themes server for themium and free(mium) oik themes
-Version: 1.2.0
+Version: 1.2.1
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-themes

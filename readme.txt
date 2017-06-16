@@ -3,8 +3,8 @@ Contributors: bobbingwide
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags:  themes, server, shortcodes, FREE, premium
 Requires at least: 4.2
-Tested up to: 4.7.1
-Stable tag: 1.2.0
+Tested up to: 4.7.2
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,9 @@ This won't create a download button but the theme will be accessible if the user
 3. display oik-theme
 
 == Upgrade Notice ==
+= 1.2.1 = 
+Display of tabs now more inline with oik-plugins.
+
 = 1.2.0 = 
 Upgrade for improved display of tabs.
 
@@ -80,11 +83,16 @@ Depends on oik-plugins v1.2 or higher
 Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2 
 
 == Changelog ==
+= 1.2.1 = 
+* Changed: No longer display 'Purchasable product: FREE' [github bobbingwide oik-themes issue 7]
+* Changed: Display tabbed information like oik-plugins [github bobbingwide oik-themes issue 2]
+* Tested: With WordPress 4.7.2 and WordPress Multisite
+
 = 1.2.0 = 
-Added: Improve support for Theme types [github bobbingwide oik-themes issue 5]
-Added: Improve display of tabs [github bobbingwide oik-themes issue 2]
-Added: Support REST for oik-themes [github bobbingwide oik-themes issue 6]
-Changed: Associate the _component_version virtual field to oik-themes [github bobbingwide oik-themes issue 4]
+* Added: Improve support for Theme types [github bobbingwide oik-themes issue 5]
+* Added: Improve display of tabs [github bobbingwide oik-themes issue 2]
+* Added: Support REST for oik-themes [github bobbingwide oik-themes issue 6]
+* Changed: Associate the _component_version virtual field to oik-themes [github bobbingwide oik-themes issue 4]
 
 = 1.1.0 =
 * Added: Cater for Template theme's shortcodes [github bobbingwide oik-themes issue 2]
