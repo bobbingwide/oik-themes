@@ -1,10 +1,10 @@
 === oik themes server ===
 Contributors: bobbingwide
-Donate link: http://www.oik-plugins.com/oik/oik-donate/
+Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags:  themes, server, shortcodes, FREE, premium
-Requires at least: 4.2
-Tested up to: 4.7.2
-Stable tag: 1.2.1
+Requires at least: 4.9
+Tested up to: 4.9
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,9 @@ This won't create a download button but the theme will be accessible if the user
 3. display oik-theme
 
 == Upgrade Notice ==
+= 1.3.0 = 
+Now dependent upon oik v3.2.1, oik-fields v1.50.0 and oik-plugins v1.16.0
+
 = 1.2.1 = 
 Display of tabs now more inline with oik-plugins.
 
@@ -83,6 +86,11 @@ Depends on oik-plugins v1.2 or higher
 Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2 
 
 == Changelog ==
+= 1.3.0 = 
+* Changed: Compatibility with oik v3.2.1 [github bobbingwide oik-themes issues 8]
+* Tested: With WordPress 4.9 and WordPress Multisite 
+* Tested: With PHP 7.0 and 7.1
+
 = 1.2.1 = 
 * Changed: No longer display 'Purchasable product: FREE' [github bobbingwide oik-themes issue 7]
 * Changed: Display tabbed information like oik-plugins [github bobbingwide oik-themes issue 2]
@@ -147,5 +155,5 @@ Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2
 
 == Further reading ==
 If you want to read more about the oik plugins then please visit the
-[oik plugin](http://www.oik-plugins.com/oik) 
+[oik plugin](https://www.oik-plugins.com/oik) 
 

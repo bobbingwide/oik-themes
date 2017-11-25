@@ -118,7 +118,7 @@ function count_description() {
 function count_faq() {
 	$count = null;
 	if ( is_post_type_viewable( "oik-faq" ) ) {
-		oik_require( "includes/bw_posts.inc" );
+		oik_require( "includes/bw_posts.php" );
 		$atts = array( "post_type" => "oik-faq"
 								 , "meta_key" => "_plugin_ref"
 								 , "meta_value" => $this->post_id
@@ -168,7 +168,7 @@ function count_shortcodes() {
 function count_viewable( $post_type, $meta_key, $meta_value ) {
 	$count = null;
 	if ( is_post_type_viewable( $post_type ) ) {
-		oik_require( "includes/bw_posts.inc" );
+		oik_require( "includes/bw_posts.php" );
 		$atts = array( "post_type" => $post_type
 								 , "meta_key" => $meta_key
 								 , "meta_value" => $meta_value
@@ -237,7 +237,7 @@ function is_field_registered( $object_type, $field_name ) {
 function count_documentation() {
 	$count = null;
 	if ( $this->is_field_registered( "page", "_plugin_ref" ) ) {
-		oik_require( "includes/bw_posts.inc" );
+		oik_require( "includes/bw_posts.php" );
 		$atts = array( "post_type" => "page"
 								 , "meta_key" => "_plugin_ref"
 								 , "meta_value" => $this->post_id
@@ -517,7 +517,7 @@ function display_documentation( $post, $slug ) {
 	if ( bw_array_get( bw_assoc( $field_names) , "_oik_doc_home", false ) ) {
 		$post_id = get_post_meta( $post->ID, "_oik_doc_home", true );
 		if ( $post_id ) {
-			oik_require( "includes/bw_posts.inc" );
+			oik_require( "includes/bw_posts.php" );
 			$post = bw_get_post( $post_id, "page" );
 			if ( !$post ) {
 				bw_trace2( $post_id, "Invalid ID for _oik_doc_home" );

@@ -4,7 +4,7 @@ Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 License: GPL2
 
-    Copyright 2012-2015 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2017 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -179,7 +179,7 @@ if ( !defined('DOING_AJAX') ) {
  * 
  */
 function oikth_load_theme( $slug ) {
-  oik_require( "includes/bw_posts.inc" );
+  oik_require( "includes/bw_posts.php" );
   $atts = array();
   $atts['post_type'] = "oik-themes";
   // $atts['name'] = $slug;
@@ -195,7 +195,7 @@ function oikth_load_theme( $slug ) {
 }
 
 function oikth_load_themeversion( $post ) {
-  oik_require( "includes/bw_posts.inc" );
+  oik_require( "includes/bw_posts.php" );
   $post_types = array( 2 => "oik_themeversion"
                      , 3 => "oik_themiumversion"
                      );
@@ -301,7 +301,7 @@ function oikth_get_tested( $version ) {
 
 
 function oikth_get_attachment( $version ) {
-  oik_require( "includes/bw_posts.inc" );
+  oik_require( "includes/bw_posts.php" );
   $atts = array( "post_type" => "attachment" 
                , "post_parent" => $version->ID
                , "numberposts" => 1
@@ -367,7 +367,7 @@ function oikth_update_check( $oik_theme_action="update-check" ) {
     $theme = bw_array_get( $_REQUEST, "theme_name", null );
     if ( $theme ) {
       //$version = bw_array_get( $_REQUEST, "version", null );
-      oik_require( "admin/oik-admin.inc" );
+      oik_require( "admin/oik-admin.php" );
    
       $slug = bw_get_slug( $theme );   
       $post = oikth_load_theme( $slug );
@@ -445,7 +445,7 @@ function oikth_get_author_profile( $post ) {
  * Return the defined FAQ page for the themes server
  */
 function oikth_get_FAQ( $post ) {
-  oik_require( "admin/oik-admin.inc" );
+  oik_require( "admin/oik-admin.php" );
   $faq = bw_get_option( "faq", "bw_themes_server" );
   if ( $faq ) {
     $post = bw_get_post( $faq, "page" );

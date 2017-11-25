@@ -6,178 +6,180 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/oik-themes\n"
 "POT-Creation-Date: 2017-11-25 17:42:51+00:00\n"
 "MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+"Language: en_GB\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-
 #: admin/oik-activation.php:24
 msgid "Install"
-msgstr ""
+msgstr "Install"
 
 #: admin/oik-activation.php:53
 msgid "Activate"
-msgstr ""
+msgstr "Activate"
 
 #: admin/oik-activation.php:73
 msgid "Update"
-msgstr ""
+msgstr "Update"
 
 #: admin/oik-activation.php:191
 msgid "%1$s may not be fully functional."
-msgstr ""
+msgstr "%1$s may not be fully functional."
 
 #: admin/oik-activation.php:193
 msgid ""
 "Please install and activate the required minimum version of this plugin:"
-msgstr ""
+msgstr "Please install and activate the required minimum version of this plugin:"
 
 #: admin/oik-themes.php:35
 msgid "themes server settings"
-msgstr ""
+msgstr "themes server settings"
 
 #: admin/oik-themes.php:36
 msgid "Defaults"
-msgstr ""
+msgstr "Defaults"
 
 #: admin/oik-themes.php:37
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: admin/oik-themes.php:48
 msgid "Folder for premium themes"
-msgstr ""
+msgstr "Folder for premium themes"
 
 #: admin/oik-themes.php:146 oik-themes.php:310
 msgid "theme"
-msgstr ""
+msgstr "theme"
 
 #: admin/oik-themes.php:148 oik-themes.php:346
 msgid "Downloads"
-msgstr ""
+msgstr "Downloads"
 
 #: admin/oik-themes.php:149 oik-themes.php:347
 msgid "Updates"
-msgstr ""
+msgstr "Updates"
 
 #: admin/oik-themes.php:150
 msgid "Totals"
-msgstr ""
+msgstr "Totals"
 
 #: oik-themes.php:163
 msgid "Themes"
-msgstr ""
+msgstr "Themes"
 
 #: oik-themes.php:164
 msgid "WordPress theme"
-msgstr ""
+msgstr "WordPress theme"
 
 #: oik-themes.php:175
 msgid "Theme type"
-msgstr ""
+msgstr "Theme type"
 
 #: oik-themes.php:176
 msgid "Theme name"
-msgstr ""
+msgstr "Theme name"
 
 #: oik-themes.php:177 oik-themes.php:237
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 #: oik-themes.php:178
 msgid "Live demonstration"
-msgstr ""
+msgstr "Live demonstration"
 
 #: oik-themes.php:179
 msgid "Template"
-msgstr ""
+msgstr "Template"
 
 #: oik-themes.php:187
 msgid "Purchasable product"
-msgstr ""
+msgstr "Purchasable product"
 
 #: oik-themes.php:235
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: oik-themes.php:236
 msgid "Slug"
-msgstr ""
+msgstr "Slug"
 
 #: oik-themes.php:238
 msgid "Product"
-msgstr ""
+msgstr "Product"
 
 #: oik-themes.php:294
 msgid "oik theme versions"
-msgstr ""
+msgstr "oik theme versions"
 
 #: oik-themes.php:295
 msgid "oik theme version"
-msgstr ""
+msgstr "oik theme version"
 
 #: oik-themes.php:311 oik-themes.php:344 oik-themes.php:368
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #: oik-themes.php:325
 msgid "Download count"
-msgstr ""
+msgstr "Download count"
 
 #: oik-themes.php:326
 msgid "Update count"
-msgstr ""
+msgstr "Update count"
 
 #: oik-themes.php:345
 msgid "Theme"
-msgstr ""
+msgstr "Theme"
 
 #: oik-themes.php:383
 msgid "oik themium versions"
-msgstr ""
+msgstr "oik themium versions"
 
 #: oik-themes.php:384
 msgid "oik themium theme version"
-msgstr ""
+msgstr "oik themium theme version"
 
 #: oik-themes.php:563 shortcodes/oik-themes.php:27
 #: shortcodes/oik-themes.php:55
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: shortcodes/oik-themes.php:32
 msgid "version"
-msgstr ""
+msgstr "version"
 
 #: shortcodes/oik-themes.php:168
 msgid "Produce a download button for a theme"
-msgstr ""
+msgstr "Produce a download button for a theme"
 
 #: shortcodes/oik-themes.php:173
 msgid "name of the theme"
-msgstr ""
+msgstr "name of the theme"
 
 #: shortcodes/oik-themes.php:176
 msgid "CSS classes for the button"
-msgstr ""
+msgstr "CSS classes for the button"
 
 #. Plugin Name of the plugin/theme
 msgid "oik themes server"
-msgstr ""
+msgstr "oik themes server"
 
 #. Plugin URI of the plugin/theme
 msgid "https://www.oik-plugins.com/oik-plugins/oik-themes"
-msgstr ""
+msgstr "https://www.oik-plugins.com/oik-plugins/oik-themes"
 
 #. Description of the plugin/theme
 msgid "oik themes server for themium and free(mium) oik themes"
-msgstr ""
+msgstr "oik themes server for themium and free(mium) oik themes"
 
 #. Author of the plugin/theme
 msgid "bobbingwide"
-msgstr ""
+msgstr "bobbingwide"
 
 #. Author URI of the plugin/theme
 msgid "https://www.oik-plugins.com/author/bobbingwide"
-msgstr ""
+msgstr "https://www.oik-plugins.com/author/bobbingwide"
+

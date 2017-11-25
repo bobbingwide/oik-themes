@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2012-2015
+<?php // (C) Copyright Bobbing Wide 2012-2017
 
 /**
  * Create a link to purchase a premium version
@@ -112,7 +112,7 @@ function oikth_download( $atts=null ) {
   $theme = bw_array_get( $atts, "theme", "oik" );
   $class = bw_array_get( $atts, 'class', NULL ) . "download" ;
   oik_require( "feed/oik-themes-feed.php", "oik-themes" );
-  oik_require( "admin/oik-admin.inc" );
+  oik_require( "admin/oik-admin.php" );
 	
 	if ( $theme == '.' ) {
 		oik_require( "includes/bw_posts.inc" );
@@ -169,7 +169,7 @@ function oikth_download__help( $shortcode='oikth_download' ) {
 }
 
 function oikth_download__syntax( $shortcode='oikth_download' ) {
-  oik_require( "includes/oik-sc-help.inc" );
+  oik_require( "includes/oik-sc-help.php" );
   $syntax = array( "theme" => bw_skv( "oik", "theme", "name of the theme" ) 
 //                 , "text" => bw_skv( "dummy", "", "text for the button" )
 //                 , "title" => bw_skv( "as text", "", "title for the tooltip" )
@@ -180,7 +180,7 @@ function oikth_download__syntax( $shortcode='oikth_download' ) {
 
 function oikth_download__example( $shortcode='oikth_download' ) {
 
-  oik_require( "includes/oik-sc-help.inc" );
+  oik_require( "includes/oik-sc-help.php" );
   $text = "To create a button to download the oik2012 theme" ;
   $example = "theme=oik2012";
   bw_invoke_shortcode( $shortcode, $example, $text );

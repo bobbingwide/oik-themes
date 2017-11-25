@@ -1,7 +1,7 @@
 <?php
 /*
 
-    Copyright 2012, 2013 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2017 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -64,7 +64,7 @@ function oik_themes_status() {
                , "orderby" => "meta_value"
                , "meta_key" => "_oikth_slug" 
   );
-  oik_require( "includes/bw_posts.inc" );
+  oik_require( "includes/bw_posts.php" );
   $posts = bw_get_posts( $atts );
   foreach ( $posts as $post ) {
     oik_themes_summarise_versions( $post ); 

@@ -1,12 +1,12 @@
 <?php 
 /**
 Plugin Name: oik themes server
-Depends: oik base plugin, oik fields
-Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-themes
+Depends: oik base plugin, oik fields, oik-plugins
+Plugin URI: https://www.oik-plugins.com/oik-plugins/oik-themes
 Description: oik themes server for themium and free(mium) oik themes
-Version: 1.2.1
+Version: 1.3.0
 Author: bobbingwide
-Author URI: http://www.oik-plugins.com/author/bobbingwide
+Author URI: https://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-themes
 Domain Path: /languages/
 License: GPLv2 or later
@@ -625,10 +625,13 @@ function oikth_admin_menu() {
 
 /**
  * Dependency checking for oik-themes
- *
- * v0.7 dependent upon oik 2.4, oik-fields 1.39 and oik-plugins
- * v1.0.0 dependent upon oik v2.6-alpha.0722, oik-fields 1.40 and oik-plugins 1.15.1
- * v1.1.0 dependent on higher levels
+ 
+ * Version | Depends
+ * ------- | -------------
+ * v0.7    | oik 2.4, oik-fields 1.39 and oik-plugins
+ * v1.0.0  | oik v2.6-alpha.0722, oik-fields 1.40 and oik-plugins 1.15.1
+ * v1.1.0  | oik 3.0.0, oik-fields 1.40, oik-plugins 1.15.4
+ * v1.3.0  | oik 3.2.1, oik-fields 1.50.0, oik-plugins 1.16.0
  */ 
 function oikth_activation() {
   static $plugin_basename = null;
@@ -639,6 +642,6 @@ function oikth_activation() {
       require_once( "admin/oik-activation.php" );
     }
   }  
-  $depends = "oik-plugins:1.15.4,oik-fields:1.40,oik:3.0.0";
+  $depends = "oik-plugins:1.16.0,oik-fields:1.50.0,oik:3.2.1";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
 }
