@@ -92,6 +92,7 @@ function oik_themes_accumulate_version( $post, $theme ) {
  */
 if ( !function_exists( "bw_array_add2" ) ) { 
 function bw_array_add2( &$array, $index, $index2, $amount ) {
+	$amount = intval( $amount );
   if ( ! isset($array[$index][$index2]) ) {
     $value = $amount;
   } else {
@@ -106,7 +107,7 @@ function bw_array_add2( &$array, $index, $index2, $amount ) {
  */
 function oik_themes_add_version( $theme, $version, $download, $updates ) {
   global $bw_theme_totals;
-  $bw_theme_totals['Total']['downloads'] = bw_array_add2( $bw_theme_totals, "Total",  "downloads",$download ); 
+  $bw_theme_totals['Total']['downloads'] = bw_array_add2( $bw_theme_totals, "Total", "downloads", $download ); 
   $bw_theme_totals['Total']['updates'] = bw_array_add2( $bw_theme_totals, "Total", "updates", $updates );
   $bw_theme_totals[$theme]['downloads'] = bw_array_add2( $bw_theme_totals, $theme, "downloads", $download );
   $bw_theme_totals[$theme]['updates'] = bw_array_add2( $bw_theme_totals, $theme, "updates", $updates );
