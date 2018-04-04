@@ -12,7 +12,7 @@ Domain Path: /languages/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-    Copyright 2013-2017 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2013-2018 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -296,6 +296,7 @@ function oik_register_oik_themeversion() {
   $post_type_args['taxonomies'] = array( 'required_version', 'compatible_up_to' );
   $post_type_args['has_archive'] = true;
   $post_type_args['menu_icon'] = 'dashicons-shield';
+	$post_type_args['show_in_rest'] = true;
   bw_register_post_type( $post_type, $post_type_args );
   oik_register_oik_themeversion_fields( $post_type );
 }
@@ -385,6 +386,7 @@ function oik_register_oik_themiumversion() {
   $post_type_args['taxonomies'] = array( 'required_version', 'compatible_up_to' );
   $post_type_args['has_archive'] = true;
   $post_type_args['menu_icon'] = 'dashicons-shield-alt';
+	$post_type_args['show_in_rest'] = true;
   bw_register_post_type( $post_type, $post_type_args );
   oik_register_oik_themeversion_fields( $post_type ); 
 }
