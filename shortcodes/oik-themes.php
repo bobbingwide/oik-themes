@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2012-2017
+<?php // (C) Copyright Bobbing Wide 2012-2018
 
 /**
  * Create a link to purchase a premium version
@@ -115,7 +115,7 @@ function oikth_download( $atts=null ) {
   oik_require( "admin/oik-admin.php" );
 	
 	if ( $theme == '.' ) {
-		oik_require( "includes/bw_posts.inc" );
+		oik_require( "includes/bw_posts.php" );
 		$post_type = bw_global_post_type();
 		if ( $post_type == "oik-themes" ) {
 			$post_id = bw_current_post_id();
