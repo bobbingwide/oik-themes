@@ -3,9 +3,9 @@
 * Contributors: bobbingwide
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags:  themes, server, shortcodes, FREE, premium
-* Requires at least: 4.9
-* Tested up to: 4.9
-* Stable tag: 1.3.0
+* Requires at least: 4.9.8
+* Tested up to: 5.0
+* Stable tag: 1.3.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ This won't create a download button but the theme will be accessible if the user
 3. display oik-theme
 
 ## Upgrade Notice 
+# 1.3.1 
+Upgrade for peaceful coexistance with Gutenberg / WordPress 5.0
+
 # 1.3.0 
 Now dependent upon oik v3.2.1, oik-fields v1.50.0 and oik-plugins v1.16.0
 
@@ -87,6 +90,11 @@ Depends on oik-plugins v1.2 or higher
 Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2
 
 ## Changelog 
+# 1.3.1 
+* Changed: Use bw_posts.php instead of .inc https://github.com/bobbingwide/oik-themes/issues/8
+* Tested: With WordPress 5.0
+* Tested: With PHP 7.2
+
 # 1.3.0 
 * Changed: Compatibility with oik v3.2.1 https://github.com/bobbingwide/oik-themes/issues/8
 * Tested: With WordPress 4.9 and WordPress Multisite
