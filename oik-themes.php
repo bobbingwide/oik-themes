@@ -12,7 +12,7 @@ Domain Path: /languages/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-    Copyright 2013-2018 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2013-2021 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -127,6 +127,7 @@ function bw_theme_types() {
                        , 5 => "Bespoke"
                        , 6 => "WordPress and FREE theme"
 											 , 7 => "Other theme"
+      , 8 => "Full Site Editing (FSE) theme"
                        );
   return( $theme_types );                      
 }
