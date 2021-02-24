@@ -5,7 +5,7 @@
 * Tags:  themes, server, shortcodes, FREE, premium
 * Requires at least: 4.9.8
 * Tested up to: 5.7-beta3
-* Stable tag: 1.4.0
+* Stable tag: 1.4.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ This won't create a download button but the theme will be accessible if the user
 3. display oik-theme
 
 ## Upgrade Notice 
+# 1.4.1 
+Now supports downloads of FSE themes using the [oikth_download] shortcode.
+
 # 1.4.0 
 Now supports Full Site Editing themes - which are currently experimental
 
@@ -93,6 +96,9 @@ Depends on oik-plugins v1.2 or higher
 Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2
 
 ## Changelog 
+# 1.4.1 
+* Changed: Add support for FSE theme downloading.https://github.com/bobbingwide/oik-themes/issues/11
+
 # 1.4.0 
 * Changed: Add support for FSE theme displaying Templates and Template parts tabs using a jQuery accordion.,https://github.com/bobbingwide/oik-themes/issues/11
 * Tested: With WordPress 5.6.1 and WordPress 5.7-beta3 and WordPress Multi Site
