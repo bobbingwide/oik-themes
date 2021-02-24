@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2012-2018
+<?php // (C) Copyright Bobbing Wide 2012-2021
 
 /**
  * Create a link to purchase a premium version
@@ -55,7 +55,7 @@ function _oikth_download_wordpressversion( $post, $slug ) {
   $text = __( "Download" );
   $text .= "&nbsp;";
   $text .= $slug;
-  art_button( $link, $text );
+  art_button( $link, $text, null, 'download' );
 } 
 
 /**
@@ -153,6 +153,14 @@ function oikth_download( $atts=null ) {
 				case '0':
 				case '4':
 					break;
+
+				case '8':
+					_oikth_download_wordpressversion( $post, $slug );
+
+				case '9':
+					_oikth_download_fromgithub( $post, $slug );
+					break;
+
 				default:
 					p( "$slug: latest version not available for download" );
 			}
@@ -185,5 +193,22 @@ function oikth_download__example( $shortcode='oikth_download' ) {
   $example = "theme=oik2012";
   bw_invoke_shortcode( $shortcode, $example, $text );
 }
+
+/**
+ * Create a link to download the theme from GitHub
+ *
+ */
+
+function _oikth_download_fromgithub( $post, $slug ) {
+	$link = get_post_meta( $post->ID, '_oikp_git', true );
+	if ( !empty( $link )) {
+		$url ='https://github.com/' . $link;
+		$text= sprintf( __( 'Download %1$s from GitHub: %2$s','oik-themes' ), $slug, $link );
+		art_button( $url, $text, null, 'download github' );
+	}
+
+}
+
+
   
 

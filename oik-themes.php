@@ -126,8 +126,9 @@ function bw_theme_types() {
                        , 4 => "Other premium theme"
                        , 5 => "Bespoke"
                        , 6 => "WordPress and FREE theme"
-											 , 7 => "Other theme"
-      , 8 => "Full Site Editing (FSE) theme"
+					 , 7 => "Other theme"
+      , 8 => "Full Site Editing (FSE) WordPress theme"
+	  , 9 => "Full Site Editing (FSE) theme"
                        );
   return( $theme_types );                      
 }

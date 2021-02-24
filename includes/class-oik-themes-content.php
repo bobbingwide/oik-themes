@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2015-2017
+<?php // (C) Copyright Bobbing Wide 2015-2021
 
 
 /**
@@ -31,7 +31,8 @@ class OIK_themes_content
      * 5    | "Bespoke theme"                | All
      * 6    | "WordPress and FREE theme"    | All
      * 7    | "Other theme"                 |
-     * 8    | Full Site Editing             | Add templates, template parts and blocks
+     * 8    | Full Site Editing - WordPress           | Add templates, template parts and blocks
+     * 9    | FSE - other | Add templates, template parts and blocks
      *
      *
      * Note: FAQ and screenshots are not yet supported for oik-themes
@@ -70,6 +71,7 @@ class OIK_themes_content
                 break;
 
             case 8:
+	        case 9:
                 $tabs['templates'] = "Templates";
                 $tabs['template_parts'] = "Template parts";
                 break;
