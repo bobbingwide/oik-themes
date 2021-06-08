@@ -4,7 +4,7 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags:  themes, server, shortcodes, FREE, premium
 * Requires at least: 4.9.8
-* Tested up to: 5.7-beta3
+* Tested up to: 5.7.2
 * Stable tag: 1.4.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -97,7 +97,10 @@ Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2
 
 ## Changelog 
 # 1.4.1 
-* Changed: Add support for FSE theme downloading.https://github.com/bobbingwide/oik-themes/issues/11
+* Changed: Add support for FSE theme downloading,https://github.com/bobbingwide/oik-themes/issues/11
+* Tested: With WordPress 5.7.2 and WordPress Multi Site
+* Tested: With Gutenberg 10.7.1
+* Tested: With PHP 8.0
 
 # 1.4.0 
 * Changed: Add support for FSE theme displaying Templates and Template parts tabs using a jQuery accordion.,https://github.com/bobbingwide/oik-themes/issues/11
