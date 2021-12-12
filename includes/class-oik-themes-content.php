@@ -574,12 +574,26 @@ class OIK_themes_content
         return ($additional_content);
     }
 
+    function get_template_dir( $slug ) {
+        $block_theme_folders = get_block_theme_folders($slug);
+        $dir = $block_theme_folders[ 'wp_template' ];
+        return $dir;
+    }
+
+    function get_template_part_dir( $slug ) {
+        $block_theme_folders = get_block_theme_folders($slug);
+        $dir = $block_theme_folders[ 'wp_template_part' ];
+        return $dir;
+    }
+
+
     function display_templates($post, $slug) {
         $additional_content = '';
         $theme_dir = get_theme_root();
         $theme_dir .= '/';
         $theme_dir .= $slug;
-        $theme_dir .= '/block-templates';
+        $theme_dir .= '/';
+        $theme_dir .= $this->get_template_dir( $slug );
         $files = $this->get_file_list($theme_dir, '*.html');
         e( sprintf( _n( '%$1s template', '%1$s templates', 'oik-themes'), count( $files ) ) );
         $additional_content .= $this->accordion($files);
@@ -592,7 +606,8 @@ class OIK_themes_content
         $theme_dir = get_theme_root();
         $theme_dir .= '/';
         $theme_dir .= $slug;
-        $theme_dir .= '/block-template-parts';
+        $theme_dir .= '/';
+        $theme_dir .= $this->get_template_part_dir( $slug );
         $files = $this->get_file_list($theme_dir, '*.html');
         e( sprintf( _n( '%$1s template part', '%1$s template parts', 'oik-themes'), count( $files ) ) );
         //printf( _n( '%s person', '%s people', $count, 'text-domain' ), number_format_i18n( $count ) );
