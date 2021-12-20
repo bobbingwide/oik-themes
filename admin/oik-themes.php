@@ -150,15 +150,16 @@ function oik_themes_status_report() {
   th( "Updates" );
   th( "Totals" ); 
   etag( "tr" );
-
-  foreach ( $bw_theme_totals as $theme => $theme_total  ) {
-    stag( "tr" );
-    td( $theme );
-    td( $theme_total['downloads'] );
-    td( $theme_total['updates'] );
-    td( $theme_total['downloads'] + $theme_total['updates'] );
-    etag( "tr" );
-  } 
+  if ( $bw_theme_totals && count( $bw_theme_totals ) ) {
+      foreach ($bw_theme_totals as $theme => $theme_total) {
+          stag("tr");
+          td($theme);
+          td($theme_total['downloads']);
+          td($theme_total['updates']);
+          td($theme_total['downloads'] + $theme_total['updates']);
+          etag("tr");
+      }
+  }
   etag( "table" );
 }
 
