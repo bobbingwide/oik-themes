@@ -1,11 +1,11 @@
 # oik themes server 
-![banner](https://raw.githubusercontent.com/bobbingwide/oik-themes/master/assets/oik-themes-banner-772x250.jpg)
+![banner](assets/oik-themes-banner-772x250.jpg)
 * Contributors: bobbingwide
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags:  themes, server, shortcodes, FREE, premium
 * Requires at least: 4.9.8
-* Tested up to: 5.7.2
-* Stable tag: 1.4.1
+* Tested up to: 5.9-beta4
+* Stable tag: 1.4.2
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ This won't create a download button but the theme will be accessible if the user
 3. display oik-theme
 
 ## Upgrade Notice 
+# 1.4.2 
+
+
 # 1.4.1 
 Now supports downloads of FSE themes using the [oikth_download] shortcode.
 
@@ -96,6 +99,13 @@ Depends on oik-plugins v1.2 or higher
 Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2
 
 ## Changelog 
+# 1.4.2 
+* Fixed: Avoid Warning when global not set. Fixes #10
+* Changed: Cater for new folder structure for block based themes #11
+* Tested: With WordPress 5.9-beta4 and WordPress Multi Site
+* Tested: With Gutenberg 12.2.0
+* Tested: With PHP 8.0
+
 # 1.4.1 
 * Changed: Add support for FSE theme downloading,https://github.com/bobbingwide/oik-themes/issues/11
 * Tested: With WordPress 5.7.2 and WordPress Multi Site
