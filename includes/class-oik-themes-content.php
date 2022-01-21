@@ -74,6 +74,7 @@ class OIK_themes_content
 	        case 9:
                 $tabs['templates'] = "Templates";
                 $tabs['template_parts'] = "Template parts";
+                $tabs['patterns'] = "Patterns";
                 break;
         }
         if ($tabs) {
@@ -389,6 +390,7 @@ class OIK_themes_content
             , "documentation" => "display_documentation"
             , "templates" => "display_templates"
             , "template_parts" => "display_template_parts"
+            , 'patterns' => 'display_patterns'
             );
             $oik_tab_function = bw_array_get($tabs, $oik_tab, "display_unknown");
             if ($oik_tab_function) {
@@ -615,10 +617,53 @@ class OIK_themes_content
         return $additional_content;
     }
 
-    function get_file_list($dir, $mask) {
-        $files = glob($dir .'/' . $mask);
-        return $files;
+    function get_all_patterns( $slug ) {
+	    $theme_dir = get_theme_root();
+	    $theme_dir .= '/';
+	    $theme_dir .= $slug;
+		$dirs = [ 'patterns', 'inc' ]; // should find inc/patterns
+		$masks = [ '*.html', '*.php'];
+		$files = [];
+	    foreach ( $dirs as $dir ) {
+	    	$files1 = $this->get_subdir_file_list( $theme_dir . '/' . $dir, $masks );
+	    	$files = array_merge( $files, $files1 );
+	    }
+	    return $files;
     }
+
+
+	function get_file_list($dir, $mask) {
+		$files = glob($dir .'/' . $mask);
+		return $files;
+	}
+
+	function get_subdir_file_list( $dir, $masks ) {
+    	//echo "gsfl:" . $dir .PHP_EOL;
+		$files = [];
+		foreach ( $masks as $mask ) {
+			//$theme_dir .= $this->get_template_part_dir( $slug );
+			$files1=$this->get_file_list( $dir, $mask );
+			$files = array_merge( $files, $files1 );
+		}
+		$subdirs = glob( $dir . '/*',  GLOB_ONLYDIR  );
+		foreach ( $subdirs as $subdir ) {
+			$files1=$this->get_subdir_file_list( $subdir, $masks );
+			$files = array_merge( $files, $files1 );
+		}
+		return $files;
+	}
+
+    function display_patterns( $post, $slug ) {
+        $additional_content = '';
+        $files = $this->get_all_patterns( $slug );
+
+
+        e( sprintf( _n( '%$1s pattern', '%1$s patterns', 'oik-themes'), count( $files ) ) );
+        $additional_content .= $this->accordion($files);
+        return $additional_content;
+    }
+
+
 
     function list_files($files) {
         $content = '<ol>';
@@ -644,6 +689,7 @@ class OIK_themes_content
         $cp = bw_current_post_id();
         foreach ( $files as $file ) {
             $this->format_accordion( $file );
+
         }
         ediv( $class );
         return bw_ret();
@@ -659,7 +705,19 @@ class OIK_themes_content
             stag( 'pre');
             e( esc_html( $contents ));
             etag( 'pre');
+            $this->preview_pattern( $file , $contents );
          ediv();
+
+
+    }
+
+    function preview_pattern( $file, $contents ) {
+    	if ( 'html' === pathinfo( $file, PATHINFO_EXTENSION )) {
+    		e( $contents );
+	    } else {
+    		e( "get it from the cache");
+	    }
+
     }
 
     /**
