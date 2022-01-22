@@ -654,16 +654,25 @@ class OIK_themes_content
 	}
 
     function display_patterns( $post, $slug ) {
-        $additional_content = '';
-        $files = $this->get_all_patterns( $slug );
-
-
-        e( sprintf( _n( '%$1s pattern', '%1$s patterns', 'oik-themes'), count( $files ) ) );
-        $additional_content .= $this->accordion($files, 'patterns');
+        $additional_content = null;
+        $additional_content = $this->display_all_cached_patterns( $slug );
+        if ( null === $additional_content ) {
+            $files = $this->get_all_patterns($slug);
+            e(sprintf(_n('%$1s pattern', '%1$s patterns', 'oik-themes'), count($files)));
+            $additional_content .= $this->accordion($files, 'patterns');
+        }
         return $additional_content;
     }
 
-
+    function display_all_cached_patterns( $slug ) {
+        $additional_content = null;
+        if ( function_exists( 'oik_patterns_loaded')) {
+            oik_require('libs/class-oik-patterns-import.php', 'oik-patterns');
+            $oik_patterns_import = new OIK_patterns_import($slug);
+            $additional_content = $oik_patterns_import->display_cached_patterns();
+        }
+        return $additional_content;
+    }
 
     function list_files($files) {
         $content = '<ol>';
