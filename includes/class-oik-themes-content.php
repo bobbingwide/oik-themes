@@ -598,7 +598,7 @@ class OIK_themes_content
         $theme_dir .= $this->get_template_dir( $slug );
         $files = $this->get_file_list($theme_dir, '*.html');
         e( sprintf( _n( '%$1s template', '%1$s templates', 'oik-themes'), count( $files ) ) );
-        $additional_content .= $this->accordion($files);
+        $additional_content .= $this->accordion($files, 'templates');
         return $additional_content;
     }
 
@@ -613,7 +613,7 @@ class OIK_themes_content
         $files = $this->get_file_list($theme_dir, '*.html');
         e( sprintf( _n( '%$1s template part', '%1$s template parts', 'oik-themes'), count( $files ) ) );
         //printf( _n( '%s person', '%s people', $count, 'text-domain' ), number_format_i18n( $count ) );
-        $additional_content .= $this->accordion($files);
+        $additional_content .= $this->accordion($files, 'parts');
         return $additional_content;
     }
 
@@ -659,7 +659,7 @@ class OIK_themes_content
 
 
         e( sprintf( _n( '%$1s pattern', '%1$s patterns', 'oik-themes'), count( $files ) ) );
-        $additional_content .= $this->accordion($files);
+        $additional_content .= $this->accordion($files, 'patterns');
         return $additional_content;
     }
 
@@ -673,11 +673,11 @@ class OIK_themes_content
             $content .= '</li>';
         }
         $content .= '</ol>';
-        $content .= $this->accordion( $files );
+        $content .= $this->accordion( $files, '?' );
         return $content;
     }
 
-    function accordion( $files ) {
+    function accordion( $files, $type ) {
         oik_require( "shortcodes/oik-jquery.php" );
         bw_jquery_enqueue_script( "jquery-ui-accordion" );
         bw_jquery_enqueue_style( "jquery-ui-accordion" );
@@ -688,24 +688,27 @@ class OIK_themes_content
 
         $cp = bw_current_post_id();
         foreach ( $files as $file ) {
-            $this->format_accordion( $file );
+            $this->format_accordion( $file, $type );
 
         }
         ediv( $class );
         return bw_ret();
     }
 
-    function format_accordion( $file ) {
+    function format_accordion( $file, $type=null ) {
         //bw_format_accordion()
          h3( basename( $file ) );
          $contents = file_get_contents( $file );
          $contents = str_replace( '[', '&#091;', $contents);
          //bw_geshi_it()
          sdiv();
-            stag( 'pre');
+            if ( 'patterns' === $type ) {
+                $this->preview_pattern($file, $contents);
+            }
+            stag( 'pre', 'pattern');
             e( esc_html( $contents ));
             etag( 'pre');
-            $this->preview_pattern( $file , $contents );
+
          ediv();
 
 
@@ -713,6 +716,7 @@ class OIK_themes_content
 
     function preview_pattern( $file, $contents ) {
     	if ( 'html' === pathinfo( $file, PATHINFO_EXTENSION )) {
+    	    //e ( $file );
     		e( $contents );
 	    } else {
     		e( "get it from the cache");
