@@ -52,7 +52,7 @@ This won't create a download button but the theme will be accessible if the user
 
 == Upgrade Notice ==
 = 1.4.2 =
-
+Upgrade to cater for the new folder structure for block based themes.
 
 = 1.4.1 = 
 Now supports downloads of FSE themes using the [oikth_download] shortcode. 
