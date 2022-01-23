@@ -588,29 +588,55 @@ class OIK_themes_content
         return $dir;
     }
 
+    function list_template_files( $slug ) {
+
+	    $theme_dir=get_theme_root();
+	    $theme_dir.='/';
+	    $theme_dir.=$slug;
+	    $theme_dir.='/';
+	    $theme_dir.=$this->get_template_dir( $slug );
+	    $files  =$this->get_file_list( $theme_dir, '*.html' );
+	    return $files;
+    }
+
 
     function display_templates($post, $slug) {
         $additional_content = '';
-        $theme_dir = get_theme_root();
-        $theme_dir .= '/';
-        $theme_dir .= $slug;
-        $theme_dir .= '/';
-        $theme_dir .= $this->get_template_dir( $slug );
-        $files = $this->get_file_list($theme_dir, '*.html');
+        $files = $this->list_template_files( $slug );
         e( sprintf( _n( '%$1s template', '%1$s templates', 'oik-themes'), count( $files ) ) );
         $additional_content .= $this->accordion($files, 'templates');
         return $additional_content;
     }
 
-    function display_template_parts($post, $slug) {
+
+    function count_template_files( $slug ) {
+    	$files = $this->list_template_files( $slug );
+    	$count = count( $files );
+    	return $count;
+
+    }
+
+	function count_parts_files( $slug ) {
+		$files = $this->list_parts_files( $slug );
+		$count = count( $files );
+		return $count;
+	}
+
+	function list_parts_files( $slug ) {
+		$theme_dir = get_theme_root();
+		$theme_dir = get_theme_root();
+		$theme_dir .= '/';
+		$theme_dir .= $slug;
+		$theme_dir .= '/';
+		$theme_dir .= $this->get_template_part_dir( $slug );
+		$files = $this->get_file_list($theme_dir, '*.html');
+		return $files;
+	}
+
+
+	function display_template_parts($post, $slug) {
         $additional_content = "";
-        $theme_dir = get_theme_root();
-        $theme_dir = get_theme_root();
-        $theme_dir .= '/';
-        $theme_dir .= $slug;
-        $theme_dir .= '/';
-        $theme_dir .= $this->get_template_part_dir( $slug );
-        $files = $this->get_file_list($theme_dir, '*.html');
+        $files = $this->list_parts_files( $slug );
         e( sprintf( _n( '%$1s template part', '%1$s template parts', 'oik-themes'), count( $files ) ) );
         //printf( _n( '%s person', '%s people', $count, 'text-domain' ), number_format_i18n( $count ) );
         $additional_content .= $this->accordion($files, 'parts');

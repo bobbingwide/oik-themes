@@ -93,6 +93,7 @@ function oikth_template_redirect() {
  * Implement the "oik_fields_loaded" action for oik themes server
  */
 function oikth_init( ) {
+  oik_register_oik_count_fields();
   oik_register_oik_theme();
   oik_register_oik_themeversion();
   oik_register_oik_themiumversion();
@@ -180,7 +181,9 @@ function oik_register_oik_theme() {
   bw_register_field( "_oikth_demo", "URL", "Live demonstration" ); 
   bw_register_field( "_oikth_template", "noderef", "Template", array( '#type' => 'oik-themes', '#optional' => true ) ); // Parent theme name
 
-  /** Currently we support two different systems for delivering themium themes: WooCommerce and Easy Digital Downloads 
+
+
+	/** Currently we support two different systems for delivering themium themes: WooCommerce and Easy Digital Downloads
    * The Purchasable product should be completed for each themium oik theme (and Other themium theme? )
    */
   $purchasable_product_type = array();
@@ -196,6 +199,9 @@ function oik_register_oik_theme() {
   bw_register_field_for_object_type( "_oikth_prod", $post_type );
   bw_register_field_for_object_type( "_oikth_demo", $post_type );
   bw_register_field_for_object_type( "_oikth_template", $post_type );
+	bw_register_field_for_object_type( "_oikth_templates_count", $post_type );
+	bw_register_field_for_object_type( "_oikth_parts_count", $post_type );
+	bw_register_field_for_object_type( "_oikth_patterns_count", $post_type );
 	
   bw_register_field_for_object_type( "_oikp_git", $post_type );
   oikth_columns_and_titles( $post_type );
@@ -648,4 +654,42 @@ function oikth_activation() {
   }  
   $depends = "oik-plugins:1.16.0,oik-fields:1.50.0,oik:3.2.1";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
+}
+
+/**
+ * Registers the virtual fields for counts.
+ *
+ * Note: Plugins can deliver patterns as well. eg core.
+ */
+function oik_register_oik_count_fields() {
+	$templates_args = array( "#callback" => "oikth_templates_count"
+	, "#parms" => null
+	, "#plugin" => 'oik-themes'
+	, "#file" => "includes/oik-themes-virtual-counts.php"
+	, "#form" => false
+	, "#hint" => "virtual field"
+	//, '#theme_null' => false // set this to false when it's not needed in Information
+	);
+	bw_register_field( '_oikth_templates_count', 'virtual', 'Templates delivered', $templates_args);
+	
+	$parts_args = array( "#callback" => "oikth_parts_count"
+	, "#parms" => null
+	, "#plugin" => 'oik-themes'
+	, "#file" => "includes/oik-themes-virtual-counts.php"
+	, "#form" => false
+	, "#hint" => "virtual field"
+		//, '#theme_null' => false // set this to false when it's not needed in Information
+	);
+	bw_register_field( '_oikth_parts_count', 'virtual', 'Template parts delivered', $parts_args );
+
+	$patterns_args = array( "#callback" => "oikth_patterns_count"
+	, "#parms" => null
+	, "#plugin" => 'oik-themes'
+	, "#file" => "includes/oik-themes-virtual-counts.php"
+	, "#form" => false
+	, "#hint" => "virtual field"
+		//, '#theme_null' => false // set this to false when it's not needed in Information
+	);
+	bw_register_field( '_oikth_patterns_count', 'virtual', 'Patterns delivered', $patterns_args );
+
 }
