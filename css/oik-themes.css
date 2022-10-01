@@ -1,4 +1,4 @@
-/* (C) Copyright Bobbing Wide 2015, 2016 */
+/* (C) Copyright Bobbing Wide 2015, 2016, 2022 */
 /* Styling for the output of oik-themes to be similar to wordpress.org for the TwentyTwelve theme
    and different for Genesis based themes
 */ 
@@ -57,4 +57,8 @@ div.theme-info:after { clear: left; }
 }
 
 
+.bw_accordion_item pre {
+	overflow: auto;
+	font-size: 0.8em;
+}
 

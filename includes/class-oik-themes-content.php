@@ -713,11 +713,11 @@ class OIK_themes_content
     }
 
     function accordion( $files, $type ) {
-        oik_require( "shortcodes/oik-jquery.php" );
-        bw_jquery_enqueue_script( "jquery-ui-accordion" );
-        bw_jquery_enqueue_style( "jquery-ui-accordion" );
+        //oik_require( "shortcodes/oik-jquery.php" );
+        //bw_jquery_enqueue_script( "jquery-ui-accordion" );
+        //bw_jquery_enqueue_style( "jquery-ui-accordion" );
         $selector = $this->bw_accordion_id();
-        bw_jquery( "#$selector", "accordion",  '{ heightStyle: "content"}' );
+        //bw_jquery( "#$selector", "accordion",  '{ heightStyle: "content"}' );
         $class = "bw_accordion";
         sdiv( $class, $selector );
 
@@ -730,23 +730,25 @@ class OIK_themes_content
         return bw_ret();
     }
 
-    function format_accordion( $file, $type=null ) {
-        //bw_format_accordion()
-         h3( basename( $file ) );
-         $contents = file_get_contents( $file );
-         $contents = str_replace( '[', '&#091;', $contents);
-         //bw_geshi_it()
-         sdiv();
-            if ( 'patterns' === $type ) {
-                $this->preview_pattern($file, $contents);
-            }
-            stag( 'pre', 'pattern');
-            e( esc_html( $contents ));
-            etag( 'pre');
-
-         ediv();
-
-
+    function format_accordion( $file, $type=null )  {
+        sdiv('bw_accordion_item');
+        stag('details');
+        stag('summary');
+        e(basename($file));
+        etag('summary');
+        $contents = file_get_contents($file);
+        $contents = str_replace('[', '&#091;', $contents);
+        //bw_geshi_it()
+        sdiv();
+        if ('patterns' === $type) {
+            $this->preview_pattern($file, $contents);
+        }
+        stag('pre', 'pattern');
+        e(esc_html($contents));
+        etag('pre');
+        ediv();
+        etag('details');
+        ediv();
     }
 
     function preview_pattern( $file, $contents ) {
