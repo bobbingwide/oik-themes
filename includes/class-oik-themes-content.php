@@ -31,8 +31,8 @@ class OIK_themes_content
      * 5    | "Bespoke theme"                | All
      * 6    | "WordPress and FREE theme"    | All
      * 7    | "Other theme"                 |
-     * 8    | Full Site Editing - WordPress           | Add templates, template parts and blocks
-     * 9    | FSE - other | Add templates, template parts and blocks
+     * 8    | Full Site Editing - WordPress | Add templates, template parts, patterns and styles
+     * 9    | FSE - other | Add templates, template parts, blocks, patterns and styles
      *
      *
      * Note: FAQ and screenshots are not yet supported for oik-themes
@@ -75,6 +75,7 @@ class OIK_themes_content
                 $tabs['templates'] = "Templates";
                 $tabs['template_parts'] = "Template parts";
                 $tabs['patterns'] = "Patterns";
+                $tabs['styles'] = "Styles";
                 break;
         }
         if ($tabs) {
@@ -391,6 +392,7 @@ class OIK_themes_content
             , "templates" => "display_templates"
             , "template_parts" => "display_template_parts"
             , 'patterns' => 'display_patterns'
+            , 'styles' => 'display_styles'
             );
             $oik_tab_function = bw_array_get($tabs, $oik_tab, "display_unknown");
             if ($oik_tab_function) {
@@ -622,6 +624,10 @@ class OIK_themes_content
 		return $count;
 	}
 
+    function count_styles() {
+        return 1;
+    }
+
 	function list_parts_files( $slug ) {
 		$theme_dir = get_theme_root();
 		$theme_dir = get_theme_root();
@@ -698,6 +704,155 @@ class OIK_themes_content
             $additional_content = $oik_patterns_import->display_cached_patterns();
         }
         return $additional_content;
+    }
+
+    function display_styles( $post, $slug ) {
+        $additional_content = "Theme styles";
+
+        //$styles = WP_Theme_JSON_Resolver::get_style_variations();
+        $style_files = $this->get_all_styles( $slug );
+        $variations = [];
+        foreach ( $style_files as $style_file ) {
+            $variations[] = $this->fetch_style_variation( $style_file );
+        }
+        $additional_content .= '<ol>';
+        foreach ( $variations as $variation ) {
+            //print_r( $variation);
+            //$fancy_stuff =  $this->format_fancy_stuff ( $variation );
+            $additional_content .= '<li>';
+            $additional_content .= '<div ';
+            $additional_content .= $this->getForegroundBackground( $variation );
+            $additional_content .= '>';
+            $additional_content .= $this->get_title( $variation );
+
+            $additional_content .= $this->format_fancy_stuff ( $variation );
+            $additional_content .= $this->getColorPalette( $variation );
+            $additional_content .= '</div>';
+            $additional_content .= '</li>';
+        
+        }
+        $additional_content .= '</ol>';
+        //print_r( $variations );
+
+        //print_r( $style_files );
+        return $additional_content;
+    }
+
+    function fetch_style_variation( $path ) {
+        $decoded_file = wp_json_file_decode( $path, array( 'associative' => true ) );
+        if ( is_array( $decoded_file )) {
+            $variation  = ( new WP_Theme_JSON( $decoded_file ) )->get_raw_data();
+            if ( empty( $variation['title'] ) ) {
+                $variation['title'] = basename( $path, '.json' );
+            }
+
+        }
+        return $variation;
+    }
+
+    function get_title( $variation ) {
+        $additional_content = '<div>';
+        $additional_content .= $variation['title'];
+        $additional_content .= '</div>';
+        return $additional_content;
+
+    }
+
+    function format_fancy_stuff( $variation ) {
+        $fancy_stuff = "<div>Width: ";
+        $value = $this->get_field( $variation, 'settings.layout.contentSize');
+        //$fancy_stuff .= $variation['settings']['layout']['contentSize'];
+        $fancy_stuff .= $value;
+        $fancy_stuff .= '</div>';
+        return $fancy_stuff;
+    }
+
+    function getForegroundBackground( $variation ) {
+        $style = 'style="display:flex; ';
+        $foreground = $this->get_field( $variation, 'styles.color.text' );
+        $background = $this->get_field( $variation, 'styles.color.background');
+        $style .= "color:$foreground; ";
+        $style .= "background:$background; ";
+        //$style .= "justify-content: space-between; ";
+        $style .= "gap:10px; ";
+        $style .= '"';
+        return $style;
+    }
+
+    function getColorPalette( $variation ) {
+        //print_r( $variation );
+        $palettes = $this->get_field( $variation, 'settings.color.palette.theme');
+        //print_r( $palettes );
+        $colors = '';
+        $colors .= '<div style="display:flex; border:1px solid grey; height:1em;">';
+        foreach ( $palettes as $palette ) {
+            $colors .= '<div style=" width:2em; ';
+            $colors .= 'background:';
+            $colors .= $palette['color'];
+            $colors .= '"';
+            $colors .= "title=\"${palette['name']}\"";
+            $colors .= '/>&nbsp;';
+            //$colors .= $palette['name'];
+            $colors .= '</div>';
+        }
+        $colors .= '</div>';
+
+        return $colors;
+    }
+
+    function get_field( $variation, $key, $default=null ) {
+        $keys = explode( '.',  $key);
+        //print_r( $keys );
+        $value = $variation;
+        foreach ( $keys as $key ) {
+            $value = bw_array_get( $value, $key, null  );
+            if ( null === $value ) {
+                break;
+            }
+        }
+        //echo $value;
+        return $value;
+
+    }
+
+        /*
+            $variations     = array();
+            $base_directory = get_stylesheet_directory() . '/styles';
+            if ( is_dir( $base_directory ) ) {
+                $nested_files      = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $base_directory ) );
+                $nested_html_files = iterator_to_array( new RegexIterator( $nested_files, '/^.+\.json$/i', RecursiveRegexIterator::GET_MATCH ) );
+                ksort( $nested_html_files );
+                foreach ( $nested_html_files as $path => $file ) {
+                    $decoded_file = wp_json_file_decode( $path, array( 'associative' => true ) );
+                    if ( is_array( $decoded_file ) ) {
+                        $translated = static::translate( $decoded_file, wp_get_theme()->get( 'TextDomain' ) );
+                        $variation  = ( new WP_Theme_JSON( $translated ) )->get_raw_data();
+                        if ( empty( $variation['title'] ) ) {
+                            $variation['title'] = basename( $path, '.json' );
+                        }
+                        $variations[] = $variation;
+                    }
+                }
+            }
+            return $variations;
+        */
+
+
+
+
+    function get_all_styles( $slug ) {
+        $theme_dir = get_theme_root();
+        $theme_dir .= '/';
+        $theme_dir .= $slug;
+        $dirs = [ '.' /*, 'styles' */ ];
+        $masks = [ '*.json' ];
+        $files = [];
+        foreach ( $dirs as $dir ) {
+            $files1 = $this->get_subdir_file_list( $theme_dir . '/' . $dir, $masks );
+            $files = array_merge( $files, $files1 );
+        }
+        return $files;
+
     }
 
     function list_files($files) {
