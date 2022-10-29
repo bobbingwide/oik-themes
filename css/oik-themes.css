@@ -66,6 +66,7 @@ div.theme-body li > div {
 	border: 1px solid grey;
 	padding: 2px;
 	margin: 2px auto;
+	background-clip: content-box;
 
 }
 

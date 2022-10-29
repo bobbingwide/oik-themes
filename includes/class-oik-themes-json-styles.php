@@ -116,7 +116,6 @@ class OIK_themes_json_styles
 
     }
 
-
     function getH1Style( $variation ) {
         $style = 'style="';
         $style .= 'color:';
@@ -149,6 +148,9 @@ class OIK_themes_json_styles
         $style .= "color:$foreground; ";
         $style .= "background-color:$background; ";
         //$style .= "justify-content: space-between; ";
+        $background_image = $this->get_gradient( $variation );
+        $style .= "background:$background_image; ";
+
         $style .= "gap:10px; ";
         $style .= 'max-width:';
         $style .= $this->get_style_field( $variation, 'settings.layout.contentSize');
@@ -156,8 +158,29 @@ class OIK_themes_json_styles
         return $style;
     }
 
+    /**
+     * Returns the background gradient.
+     *
+     * We can't use CSS vars since each style may use the same name for a different gradient.
+     * So the CSS variables need to be resolved here.
+     *
+     * `background:var(--wp--preset--gradient--base-secondary-base) no-repeat;`
+     * will become
+     * `background: linear-gradient(180deg, var(--wp--preset--color--base) 0 min(24rem, 10%), var(--wp--preset--color--secondary) 0% 30%, var(--wp--preset--color--base) 100%) no-repeat;`
+     * and then the preset colors are converted back to the hex codes.
+     * `background:linear-gradient(180deg, #1B1031 0 min(24rem, 10%), #551C5E 0% 30%, #1B1031 100%) no-repeat;`
+     *
+     * @param $variation
+     * @return mixed|null
+     */
+    function get_gradient( $variation ) {
+        $gradient = $this->get_style_field( $variation, 'styles.color.gradient');
+        $gradient = $this->replace_cssvars_generic( $variation, $gradient, 'settings.color.gradients', 'gradient' );
+        $gradient = $this->replace_cssvars_generic( $variation, $gradient, 'settings.color.palette', 'color');
+        return $gradient;
+    }
 
-    function getColorPalette( $variation ) {
+   function getColorPalette( $variation ) {
         //print_r( $variation );
         $palettes = $this->get_field( $variation, 'settings.color.palette');
         //print_r( $palettes );
@@ -231,15 +254,32 @@ class OIK_themes_json_styles
         return $cssvar;
     }
 
-    function get_preset_name( $palette ) {
-        $preset_name = 'var(--wp--preset--color--';
+    function get_preset_name( $palette, $prefix="color" ) {
+        $preset_name = "var(--wp--preset--$prefix--";
         $preset_name .= $palette['slug'];
         $preset_name .= ')';
         return $preset_name;
     }
 
-    function get_preset_color( $palette ) {
-        return $palette['color'];
+    function get_preset_color( $palette, $prefix='color' ) {
+        return $palette[$prefix];
+    }
+
+    function replace_cssvars_generic( $variation, $cssvar, $lookupkey, $prefix) {
+        $lookups = $this->get_style_field( $variation, $lookupkey);
+        //print_r( $lookups );
+        if ( $lookups && count( $lookups )) {
+            foreach ($lookups as $lookup) {
+                //print_r( $palette );
+                $preset_name = $this->get_preset_name($lookup, $prefix);
+                $preset_color = $this->get_preset_color($lookup, $prefix);
+                // Replace the preset color var with the hex value
+                //echo "$preset_name $preset_color";
+                $cssvar = str_replace($preset_name, $preset_color, $cssvar);
+            }
+        }
+
+        return $cssvar;
     }
 
 
