@@ -75,9 +75,10 @@ class OIK_themes_json_styles
         $theme_dir = get_theme_root();
         $theme_dir .= '/';
         $theme_dir .= $slug;
-        $dirs = [ '.' /*, 'styles' */ ];
+        $dirs = [ 'styles' ];
         $masks = [ '*.json' ];
         $files = [];
+        $files[] = $theme_dir . '/theme.json';
         foreach ( $dirs as $dir ) {
             $files1 = $this->oik_themes_content->get_subdir_file_list( $theme_dir . '/' . $dir, $masks );
             $files = array_merge( $files, $files1 );
