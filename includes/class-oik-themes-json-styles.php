@@ -42,7 +42,7 @@ class OIK_themes_json_styles
 
     function display_styles() {
 
-        $additional_content = "Theme styles";
+        $additional_content = "Style variations";
         $this->load_variations();
 
         $additional_content .= '<ol>';
