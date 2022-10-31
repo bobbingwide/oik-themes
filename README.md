@@ -4,8 +4,8 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags:  themes, server, shortcodes, FREE, premium
 * Requires at least: 4.9.8
-* Tested up to: 5.9-RC3
-* Stable tag: 1.4.3
+* Tested up to: 6.1
+* Stable tag: 1.4.4
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ This won't create a download button but the theme will be accessible if the user
 3. display oik-theme
 
 ## Upgrade Notice 
+# 1.4.4 
+Upgrade for display of Style variants.
+
 # 1.4.3 
 Update to display patterns and counts of templates, parts and patterns.
 
@@ -102,6 +105,14 @@ Depends on oik-plugins v1.2 or higher
 Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2
 
 ## Changelog 
+# 1.4.4 
+* Added: Report styles as Style variations #14
+* Added: Handle gradients #14
+* Changed: Improve Accordion display for Templates, Template parts and Patterns #11
+* Tested: With WordPress 6.1 and WordPress Multi Site
+* Tested: With Gutenberg 14.4.0
+* Tested: With PHP 8.0
+
 # 1.4.3 
 * Added: Add virtual fields for templates, parts and patterns counts #11
 * Changed: Display cached patterns if available. #11
