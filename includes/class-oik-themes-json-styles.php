@@ -30,21 +30,35 @@ class OIK_themes_json_styles
         $this->oik_themes_content = $oik_themes_content;
     }
 
+    function count_styles() {
+        $style_files = $this->get_all_styles($this->slug);
+        $count = count($style_files);
+        if (0 === $count) {
+            $count = null;
+        }
+        return $count;
+    }
+
     function load_variations() {
         //$styles = WP_Theme_JSON_Resolver::get_style_variations();
         $style_files = $this->get_all_styles( $this->slug );
-        $this->variations = [];
-        foreach ( $style_files as $style_file ) {
-            $this->variations[] = $this->fetch_style_variation( $style_file );
+        if ( count( $style_files )) {
+            $this->variations = [];
+            foreach ($style_files as $style_file) {
+                $this->variations[] = $this->fetch_style_variation($style_file);
+            }
+            $this->theme_json = $this->variations[0];
         }
-        $this->theme_json = $this->variations[0];
     }
 
     function display_styles() {
 
-        $additional_content = "Style variations";
-        $this->load_variations();
 
+        $this->load_variations();
+        if ( null === $this->variations || ( 0 == count( $this->variations ))) {
+            return 'No style variations.';
+        }
+        $additional_content = "Style variations";
         $additional_content .= '<ol>';
         foreach ( $this->variations as $variation ) {
             //print_r( $variation);
@@ -71,6 +85,13 @@ class OIK_themes_json_styles
         return $additional_content;
     }
 
+
+    /**
+     * Get all style variations starting with theme.json, if present.
+     *
+     * @param $slug
+     * @return array
+     */
     function get_all_styles( $slug ) {
         $theme_dir = get_theme_root();
         $theme_dir .= '/';
@@ -78,6 +99,9 @@ class OIK_themes_json_styles
         $dirs = [ 'styles' ];
         $masks = [ '*.json' ];
         $files = [];
+        if ( !file_exists( $theme_dir . '/theme.json') ) {
+            return $files;
+        }
         $files[] = $theme_dir . '/theme.json';
         foreach ( $dirs as $dir ) {
             $files1 = $this->oik_themes_content->get_subdir_file_list( $theme_dir . '/' . $dir, $masks );

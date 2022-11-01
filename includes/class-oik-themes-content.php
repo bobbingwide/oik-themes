@@ -1,5 +1,8 @@
-<?php // (C) Copyright Bobbing Wide 2015-2021
-
+<?php
+/**
+ * @copyright (C) Copyright Bobbing Wide 2015-2022
+ * @package oik-themes
+ */
 
 /**
  * Class: OIK_themes_content
@@ -625,7 +628,10 @@ class OIK_themes_content
 	}
 
     function count_styles() {
-        return 1;
+        oik_require("includes/class-oik-themes-json-styles.php", "oik-themes");
+        $themes_json_styles = new OIK_themes_json_styles($this->slug, $this);
+        $count = $themes_json_styles->count_styles();
+        return $count;
     }
 
 	function list_parts_files( $slug ) {

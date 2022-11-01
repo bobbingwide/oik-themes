@@ -202,6 +202,7 @@ function oik_register_oik_theme() {
 	bw_register_field_for_object_type( "_oikth_templates_count", $post_type );
 	bw_register_field_for_object_type( "_oikth_parts_count", $post_type );
 	bw_register_field_for_object_type( "_oikth_patterns_count", $post_type );
+    bw_register_field_for_object_type( '_oikth_styles_count', $post_type );
 	
   bw_register_field_for_object_type( "_oikp_git", $post_type );
   oikth_columns_and_titles( $post_type );
@@ -691,5 +692,15 @@ function oik_register_oik_count_fields() {
 		//, '#theme_null' => false // set this to false when it's not needed in Information
 	);
 	bw_register_field( '_oikth_patterns_count', 'virtual', 'Patterns delivered', $patterns_args );
+
+    $styles_args = array( "#callback" => "oikth_styles_count"
+    , "#parms" => null
+    , "#plugin" => 'oik-themes'
+    , "#file" => "includes/oik-themes-virtual-counts.php"
+    , "#form" => false
+    , "#hint" => "virtual field"
+        //, '#theme_null' => false // set this to false when it's not needed in Information
+    );
+    bw_register_field( '_oikth_styles_count', 'virtual', 'Style variations', $styles_args );
 
 }
