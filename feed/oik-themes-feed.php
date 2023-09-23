@@ -4,7 +4,7 @@ Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 License: GPL2
 
-    Copyright 2012-2017 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2023 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -93,9 +93,9 @@ function oikth_validate_apikey( $actual_version, $actual_theme, $apikey ) {
  */
 function oikth_increment_downloads( $id ) {
   $action = bw_array_get( $_REQUEST, "action", "download" );
-  $count = get_post_meta( $id, "_oiktv_${action}_count", true );
+  $count = get_post_meta( $id, "_oiktv_{$action}_count", true );
   $new_count = $count + 1;
-  $success = update_post_meta( $id, "_oiktv_${action}_count", $new_count, $count  );
+  $success = update_post_meta( $id, "_oiktv_{$action}_count", $new_count, $count  );
 } 
 
 /**
