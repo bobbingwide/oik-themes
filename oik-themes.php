@@ -12,7 +12,7 @@ Domain Path: /languages/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-    Copyright 2013-2022 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2013-2023 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -231,10 +231,10 @@ function bw_function_namify( $name ) {
  */ 
 function oikth_columns_and_titles( $post_type ) {
   $post_type_namify = bw_function_namify( $post_type );
-  add_filter( "manage_edit-${post_type}_columns", "${post_type_namify}_columns", 10, 2 );
-  add_action( "manage_${post_type}_posts_custom_column", "bw_custom_column_admin", 10, 2 );
-  add_filter( "oik_table_fields_${post_type}", "${post_type_namify}_fields", 10, 2 );
-  //add_filter( "oik_table_titles_${post_type}", "${post_type_namify}_titles", 10, 3 ); 
+  add_filter( "manage_edit-{$post_type}_columns", "{$post_type_namify}_columns", 10, 2 );
+  add_action( "manage_{$post_type}_posts_custom_column", "bw_custom_column_admin", 10, 2 );
+  add_filter( "oik_table_fields_{$post_type}", "{$post_type_namify}_fields", 10, 2 );
+  //add_filter( "oik_table_titles_{$post_type}", "{$post_type_namify}_titles", 10, 3 ); 
 }
 
 /**
@@ -492,9 +492,9 @@ function oikth_create_new_file_name( $old_file ) {
   if ( $theme && $version ) {
      $zipdir = bw_get_option( "zipdir", "bw_themes_server" );
      if ( PHP_OS == "WINNT" ) {
-       $new_file = "C:\\${zipdir}\\";
+       $new_file = "C:\\{$zipdir}\\";
      } else {
-       $new_file = oikth_build_external_dir( "/${zipdir}/" );
+       $new_file = oikth_build_external_dir( "/{$zipdir}/" );
      }   
      $new_file .= $theme;
      $new_file .= ".";
