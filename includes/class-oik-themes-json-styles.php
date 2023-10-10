@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright (C) Bobbing Wide 2022
+ * @copyright (C) Bobbing Wide 2022, 2023
  * @package oik-themes
  */
 
@@ -216,7 +216,7 @@ class OIK_themes_json_styles
             $colors .= 'background:';
             $colors .= $palette['color'];
             $colors .= '"';
-            $colors .= "title=\"${palette['name']}\"";
+            $colors .= "title=\"{$palette['name']}\"";
             $colors .= '/>&nbsp;';
             //$colors .= $palette['name'];
             $colors .= '</div>';
