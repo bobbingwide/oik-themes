@@ -1,0 +1,161 @@
+== Upgrade Notice ==
+= 1.4.4 = 
+Upgrade for display of Style variants. 
+
+= 1.4.3 =
+Update to display patterns and counts of templates, parts and patterns.
+
+= 1.4.2 =
+Upgrade to cater for the new folder structure for block based themes.
+
+= 1.4.1 = 
+Now supports downloads of FSE themes using the [oikth_download] shortcode. 
+
+= 1.4.0 =
+Now supports Full Site Editing themes - which are currently experimental 
+
+= 1.3.1 = 
+Upgrade for peaceful coexistance with Gutenberg / WordPress 5.0
+
+= 1.3.0 = 
+Now dependent upon oik v3.2.1, oik-fields v1.50.0 and oik-plugins v1.16.0
+
+= 1.2.1 = 
+Display of tabs now more inline with oik-plugins.
+
+= 1.2.0 = 
+Upgrade for improved display of tabs.
+
+= 1.1.0 =
+Changes for Genesis-a2z theme on WP-a2z. Tested with WordPress 4.5.2
+
+= 1.0.0 = 
+Pre-requisite to using the genesis-oik theme on oik-plugins.
+
+= 0.7 = 
+Needed to deliver theme upgrades when oik-bwtrace is activated.
+
+= 0.6 =
+Changed plugin dependency versions. Now supported on WordPress 3.9 or higher
+
+= 0.5 = 
+Required for oik-plugins.com. Now depends on oik v2.1
+
+= 0.4 = 
+Requires oik-plugins v1.4, oik v2.1-alpha.0927 and oik-fields v1.19 or higher
+
+= 0.3 = 
+After installing you need to set the "required_version" and "compatible_up_to" categories for each theme.
+Depends on oik-plugins v1.2 or higher
+
+= 0.2 = 
+Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2 
+
+== Changelog ==
+= 1.4.4 =
+* Added: Report styles as Style variations #14
+* Added: Handle gradients #14
+* Changed: Improve Accordion display for Templates, Template parts and Patterns #11
+* Tested: With WordPress 6.1 and WordPress Multi Site
+* Tested: With Gutenberg 14.4.0
+* Tested: With PHP 8.0
+
+= 1.4.3 =
+* Added: Add virtual fields for templates, parts and patterns counts #11
+* Changed: Display cached patterns if available. #11
+* Changed: Only preview patterns in the accordion. #11
+* Changed: Prototype displaying .html and .php patterns #11
+* Tested: With WordPress 5.9-RC3 and WordPress Multi Site
+* Tested: With Gutenberg 12.4.0
+* Tested: With PHP 8.0
+
+= 1.4.2 =
+* Fixed: Avoid Warning when global not set. Fixes #10
+* Changed: Cater for new folder structure for block based themes #11
+* Tested: With WordPress 5.9-beta4 and WordPress Multi Site
+* Tested: With Gutenberg 12.2.0
+* Tested: With PHP 8.0
+ 
+= 1.4.1 = 
+* Changed: Add support for FSE theme downloading,[github bobbingwide oik-themes issue 11]
+* Tested: With WordPress 5.7.2 and WordPress Multi Site
+* Tested: With Gutenberg 10.7.1
+* Tested: With PHP 8.0
+
+= 1.4.0 = 
+* Changed: Add support for FSE theme displaying Templates and Template parts tabs using a jQuery accordion.,[github bobbingwide oik-themes issue 11]
+* Tested: With WordPress 5.6.1 and WordPress 5.7-beta3 and WordPress Multi Site
+* Tested: With Gutenberg 10.0.0
+* Tested: With PHP 8.0
+
+= 1.3.1 =
+* Changed: Use bw_posts.php instead of .inc [github bobbingwide oik-themes issues 8]
+* Tested: With WordPress 5.0
+* Tested: With PHP 7.2
+
+= 1.3.0 = 
+* Changed: Compatibility with oik v3.2.1 [github bobbingwide oik-themes issues 8]
+* Tested: With WordPress 4.9 and WordPress Multisite 
+* Tested: With PHP 7.0 and 7.1
+
+= 1.2.1 = 
+* Changed: No longer display 'Purchasable product: FREE' [github bobbingwide oik-themes issue 7]
+* Changed: Display tabbed information like oik-plugins [github bobbingwide oik-themes issue 2]
+* Tested: With WordPress 4.7.2 and WordPress Multisite
+
+= 1.2.0 = 
+* Added: Improve support for Theme types [github bobbingwide oik-themes issue 5]
+* Added: Improve display of tabs [github bobbingwide oik-themes issue 2]
+* Added: Support REST for oik-themes [github bobbingwide oik-themes issue 6]
+* Changed: Associate the _component_version virtual field to oik-themes [github bobbingwide oik-themes issue 4]
+
+= 1.1.0 =
+* Added: Cater for Template theme's shortcodes [github bobbingwide oik-themes issue 2]
+*	Added: GitHub link field [github bobbingwide oik-themes issue 3]
+* Changed: docblock improvements
+* Fixed: oikth_download() may need to include bw_posts.inc [github bobbingwide oik-themes issue 1]
+
+= 1.0.0 =
+* Changed: [oikth_download] shortcode now allows download of a previous theme version
+* Changed: Now using Semantic versioning
+* Changed: Preparing for Internationalization and Localization
+* Changed: Custom post types support has_archive
+* Tested: With WordPress 4.2 and above 
+
+= 0.7 = 
+* Changed: Updated logic to handle display of titles in tables. Includes: title and excerpt
+* Changed: oik-themes can now be shown in an archive
+* Changed: oikp_lazy_redirect() sets DOING_AJAX to prevent oik-bwtrace from sending output back to the client 
+* Dropped: Support for WordPress 3.9 or earlier
+* Tested: With WordPress 4.1 and WordPress Multisite
+* Changed: Now depends on oik v2.4, oik-plugins v1.10 and oik-fields v1.39 or higher
+
+= 0.6 = 
+* Changed: Plugin dependency versions.
+* Changed: oikth_update_check() returns the theme's slug in $response->theme
+* Changed: Use dashicons for oik-themes, oik_themeversion and oik_themiumversion 
+
+= 0.5 =
+* Changed: Renamed some functions causing "Cannot redeclare" fatal errors
+
+= 0.4 =
+* Added: Field _oikth_demo - for a link to a live demonstration of the theme
+* Added: Field _oikth_template - noderef to "oik-themes" used for child themes
+* Changed: Supports ( manual ) theming of download buttons; Use alink() rather than art_button() for download buttons. 
+* Changed: Re-labelled "Other" as "Bespoke"
+
+= 0.3 =
+* Changed: Removed _oikth_requires and _oikth_tested fields - having previously switched to using Custom categories
+* Changed: Added plugin dependency on oik-plugins:1.2
+* Added: Started adding support for better display of theme details in an iframe - when Theme updates are being viewed. oikth_inspect_request_uri()
+* Changed: oik-themes Custom Post type now supports Excerpt and Featured image
+* Changed: Displays Description rather than Name in admin pages and [bw_table] shortcode
+* Changed: Download buttons determined from the theme classification: CPT - oik_themeversion/oik_themiumversion - then Theme type (_oikth_type )
+ 
+= 0.2 = 
+* Changed: Now uses custom categories for "Requires" and "Compatible up to" 
+* Note: Requires oik-plugins for definition of custom categories AND other functions to set server fields. 
+
+= 0.1 =
+* Added: First version for delivering oik-plugins's themes: oik2012, nivo2011 and oik20120
+
