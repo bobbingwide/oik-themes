@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 1.4.5 = 
+Upgrade for PHP 8.2 support. 
+
 = 1.4.4 = 
 Upgrade for display of Style variants. 
 
@@ -52,6 +55,15 @@ Depends on oik-plugins v1.2 or higher
 Dependent upon oik v2.1-alpha.0802, oik-fields v1.19.0802 and oik-plugins v1.2 
 
 == Changelog ==
+= 1.4.5 =
+* Changed: Support PHP 8.2: fix deprecated ${var} in strings #16
+* Changed: Add _oikth_styles_count virtual field to display style variations count #14
+* Tested: With WordPress 6.3.1 and WordPress Multisite
+* Tested: With WordPress 6.4-beta2 and WordPress Multisite
+* Tested: With Gutenberg 16.7.1
+* Tested: With PHP 8.0, PHP 8.1 and PHP 8.2
+* Tested: With PHPUnit 9.6
+
 = 1.4.4 =
 * Added: Report styles as Style variations #14
 * Added: Handle gradients #14

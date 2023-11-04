@@ -4,8 +4,8 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags:  themes, server, shortcodes, FREE, premium
 * Requires at least: 4.9.8
-* Tested up to: 6.4-beta2
-* Stable tag: 1.4.5
+* Tested up to: 6.4-RC3
+* Stable tag: 1.4.6
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,16 +52,14 @@ This won't create a download button but the theme will be accessible if the user
 3. display oik-theme
 
 ## Upgrade Notice 
-# 1.4.5 
+# 1.4.6 
 Upgrade for PHP 8.2 support.
 
 ## Changelog 
-# 1.4.5 
-* Changed: Support PHP 8.2: fix deprecated ${var} in strings #16
-* Changed: Add _oikth_styles_count virtual field to display style variations count #14
-* Tested: With WordPress 6.3.1 and WordPress Multisite
-* Tested: With WordPress 6.4-beta2 and WordPress Multisite
-* Tested: With Gutenberg 16.7.1
+# 1.4.6 
+* Fixed: Cater for themes with no gradient and/or no palettes #16
+* Tested: With WordPress 6.4-RC3 and WordPress Multisite
+* Tested: With Gutenberg 16.9.0
 * Tested: With PHP 8.0, PHP 8.1 and PHP 8.2
 * Tested: With PHPUnit 9.6
 
