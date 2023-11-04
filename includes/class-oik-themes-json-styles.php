@@ -200,8 +200,10 @@ class OIK_themes_json_styles
      */
     function get_gradient( $variation ) {
         $gradient = $this->get_style_field( $variation, 'styles.color.gradient');
-        $gradient = $this->replace_cssvars_generic( $variation, $gradient, 'settings.color.gradients', 'gradient' );
-        $gradient = $this->replace_cssvars_generic( $variation, $gradient, 'settings.color.palette', 'color');
+		if ( $gradient ){
+			$gradient=$this->replace_cssvars_generic( $variation, $gradient, 'settings.color.gradients', 'gradient' );
+		    $gradient=$this->replace_cssvars_generic( $variation, $gradient, 'settings.color.palette', 'color' );
+        }
         return $gradient;
     }
 
@@ -211,16 +213,18 @@ class OIK_themes_json_styles
         //print_r( $palettes );
         $colors = '';
         $colors .= '<div style="display:flex; height:1em;">';
-        foreach ( $palettes as $palette ) {
-            $colors .= '<div style=" width:1em; border-radius:50%; border: 1px solid grey; ';
-            $colors .= 'background:';
-            $colors .= $palette['color'];
-            $colors .= '"';
-            $colors .= "title=\"{$palette['name']}\"";
-            $colors .= '/>&nbsp;';
-            //$colors .= $palette['name'];
-            $colors .= '</div>';
-        }
+		if ( null !== $palettes && count( $palettes ) ) {
+			foreach ( $palettes as $palette ) {
+				$colors.='<div style=" width:1em; border-radius:50%; border: 1px solid grey; ';
+				$colors.='background:';
+				$colors.=$palette['color'];
+				$colors.='"';
+				$colors.="title=\"{$palette['name']}\"";
+				$colors.='/>&nbsp;';
+				//$colors .= $palette['name'];
+				$colors.='</div>';
+			}
+		}
         $colors .= '</div>';
 
         return $colors;
@@ -263,17 +267,18 @@ class OIK_themes_json_styles
         //print_r( $variation );
 
         $palettes = $this->get_field( $variation, 'settings.color.palette');
-        //print_r( $palettes );
-        foreach ( $palettes as $palette ) {
-            //print_r( $palette );
-            $preset_name = $this->get_preset_name( $palette );
-            $preset_color = $this->get_preset_color( $palette );
-            if ( $preset_name === $cssvar ) {
-                $cssvar = $preset_color;
-                //echo "$preset_name $preset_color";
-            }
-            //$cssvar = str_replace( $preset_name, $preset_color, $cssvar );
+        if ( null !== $palettes && count(  $palettes ) ) {
+	        foreach ( $palettes as $palette ) {
+		        //print_r( $palette );
+		        $preset_name =$this->get_preset_name( $palette );
+		        $preset_color=$this->get_preset_color( $palette );
+		        if ( $preset_name === $cssvar ) {
+			        $cssvar=$preset_color;
+			        //echo "$preset_name $preset_color";
+		        }
+		        //$cssvar = str_replace( $preset_name, $preset_color, $cssvar );
 
+	        }
         }
 
         return $cssvar;
